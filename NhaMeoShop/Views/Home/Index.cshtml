@@ -1,0 +1,318 @@
+﻿@model IEnumerable<NhaMeoShop.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="container-fluid mt-3">
+
+    <!-- BANNER -->
+    <div id="mainBanner"
+         class="carousel slide mb-4 shadow rounded"
+         data-ride="carousel">
+
+        <ol class="carousel-indicators">
+
+            <li data-target="#mainBanner"
+                data-slide-to="0"
+                class="active"></li>
+
+            <li data-target="#mainBanner"
+                data-slide-to="1"></li>
+
+            <li data-target="#mainBanner"
+                data-slide-to="2"></li>
+
+        </ol>
+
+        <div class="carousel-inner rounded">
+
+            <div class="carousel-item active">
+
+                <img src="~/images/Banner1.jpg"
+                     class="d-block w-100"
+                     style="height:420px; object-fit:cover;" />
+
+            </div>
+
+            <div class="carousel-item">
+
+                <img src="~/images/Banner2.png"
+                     class="d-block w-100"
+                     style="height:420px; object-fit:cover;" />
+
+            </div>
+
+            <div class="carousel-item">
+
+                <img src="~/images/Banner3.jpg"
+                     class="d-block w-100"
+                     style="height:420px; object-fit:cover;" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="row">
+
+        <!-- MENU LEFT -->
+        <div class="col-md-2">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header
+                            bg-danger
+                            text-white
+                            fw-bold">
+
+                    Danh mục sản phẩm
+
+                </div>
+
+                <div class="list-group list-group-flush">
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Cà phê
+
+                    </a>
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Trà sữa
+
+                    </a>
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Nước ép
+
+                    </a>
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Sinh tố
+
+                    </a>
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Trà trái cây
+
+                    </a>
+
+                    <a href="#"
+                       class="list-group-item
+                              list-group-item-action">
+
+                        Topping
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-10">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header
+                            bg-warning
+                            text-dark
+                            fw-bold
+                            fs-4">
+
+                    🧋 Loại sản phẩm nổi bật
+
+                </div>
+
+                <div class="card-body">
+
+                    <!-- HÀNG 1 -->
+                    <div class="row mb-4">
+
+                        <!-- CÀ PHÊ -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "CF").Take(1))
+                        {
+                            <div class="col-md-6">
+
+                                <div class="card
+                                            h-100
+                                            shadow-sm
+                                            border-0">
+
+                                    <img src="~/images/@item.HinhAnhSP"
+                                         class="card-img-top"
+                                         style="height:260px;
+                                                object-fit:cover;" />
+
+                                    <div class="card-body text-center">
+
+                                        <h4 class="fw-bold">
+                                            ☕ @item.TenSP
+                                        </h4>
+
+                                        <p class="text-danger
+                                                  fw-bold
+                                                  fs-4">
+
+                                            @item.DonGiaSP.ToString("N0") đ
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                        <!-- NƯỚC ÉP -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "NE").Take(1))
+                        {
+                            <div class="col-md-6">
+
+                                <div class="card
+                                            h-100
+                                            shadow-sm
+                                            border-0">
+
+                                    <img src="~/images/@item.HinhAnhSP"
+                                         class="card-img-top"
+                                         style="height:260px;
+                                                object-fit:cover;" />
+
+                                    <div class="card-body text-center">
+
+                                        <h4 class="fw-bold">
+                                            🍊 @item.TenSP
+                                        </h4>
+
+                                        <p class="text-danger
+                                                  fw-bold
+                                                  fs-4">
+
+                                            @item.DonGiaSP.ToString("N0") đ
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                    <!-- HÀNG 2 -->
+                    <div class="row">
+
+                        <!-- SINH TỐ -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "ST").Take(1))
+                        {
+                            <div class="col-md-6">
+
+                                <div class="card
+                                            h-100
+                                            shadow-sm
+                                            border-0">
+
+                                    <img src="~/images/@item.HinhAnhSP"
+                                         class="card-img-top"
+                                         style="height:260px;
+                                                object-fit:cover;" />
+
+                                    <div class="card-body text-center">
+
+                                        <h4 class="fw-bold">
+                                            🍓 @item.TenSP
+                                        </h4>
+
+                                        <p class="text-danger
+                                                  fw-bold
+                                                  fs-4">
+
+                                            @item.DonGiaSP.ToString("N0") đ
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                        <!-- TRÀ SỮA -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "TS").Take(1))
+                        {
+                            <div class="col-md-6">
+
+                                <div class="card
+                                            h-100
+                                            shadow-sm
+                                            border-0">
+
+                                    <img src="~/images/@item.HinhAnhSP"
+                                         class="card-img-top"
+                                         style="height:260px;
+                                                object-fit:cover;" />
+
+                                    <div class="card-body text-center">
+
+                                        <h4 class="fw-bold">
+                                            🧋 @item.TenSP
+                                        </h4>
+
+                                        <p class="text-danger
+                                                  fw-bold
+                                                  fs-4">
+
+                                            @item.DonGiaSP.ToString("N0") đ
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $('.carousel').carousel({
+        interval: 3000
+    });
+
+</script>

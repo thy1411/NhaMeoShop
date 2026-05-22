@@ -1,0 +1,44 @@
+﻿@model NhaMeoShop.Models.PhieuXuat
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PhieuXuat</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SoPX" />
+            <div class="form-group">
+                <label asp-for="NgayXuat" class="control-label"></label>
+                <input asp-for="NgayXuat" class="form-control" />
+                <span asp-validation-for="NgayXuat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="XuatHang" class="control-label"></label>
+                <input asp-for="XuatHang" class="form-control" />
+                <span asp-validation-for="XuatHang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GhiChuPX" class="control-label"></label>
+                <input asp-for="GhiChuPX" class="form-control" />
+                <span asp-validation-for="GhiChuPX" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

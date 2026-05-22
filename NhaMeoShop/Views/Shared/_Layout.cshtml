@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - Nhà Mèo Coffee
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+
+        body {
+            background-color: #fff8f5;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient( 90deg, #ff6b6b, #ff9f43);
+            padding: 10px 0;
+        }
+
+        /* LOGO SHOP */
+        .shop-logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        /* BRAND */
+        .navbar-brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+
+        /* MENU */
+        .nav-link {
+            color: white !important;
+            font-size: 15px;
+            font-weight: 500;
+            margin-right: 5px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+            .nav-link:hover {
+                color: yellow !important;
+                transform: translateY(-2px);
+            }
+
+        .menu-icon {
+            margin-right: 4px;
+        }
+
+        .main-container {
+            min-height: 80vh;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: gray;
+            font-size: 14px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <nav class="navbar
+                    navbar-expand-lg
+                    navbar-dark
+                    shadow">
+
+            <div class="container">
+
+                <!-- LOGO + NAME -->
+                <a class="navbar-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <img src="~/images/LoGoGoc1.png"
+                         class="shop-logo" />
+
+                    Nhà Mèo Coffee
+
+                </a>
+
+                <!-- BUTTON MOBILE -->
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarMain">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <!-- MENU -->
+                <div class="collapse navbar-collapse"
+                     id="navbarMain">
+
+                    <ul class="navbar-nav mr-auto">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-house menu-icon"></i>
+                                Trang chủ
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Products"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-mug-hot menu-icon"></i>
+                                Sản phẩm
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Categories"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-layer-group menu-icon"></i>
+                                Loại SP
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Employees"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-users menu-icon"></i>
+                                Nhân viên
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="HoaDon"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-file-invoice-dollar menu-icon"></i>
+                                Hóa đơn
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="PhieuNhap"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-box-open menu-icon"></i>
+                                Phiếu nhập
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="PhieuXuat"
+                               asp-action="Index">
+
+                                <i class="fa-solid fa-truck menu-icon"></i>
+                                Phiếu xuất
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                    <!-- LOGIN -->
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="/Identity/Account/Login">
+
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                Đăng nhập
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="/Identity/Account/Register">
+
+                                <i class="fa-solid fa-user-plus"></i>
+                                Đăng ký
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!-- BODY -->
+    <div class="container mt-4 main-container">
+
+        <main role="main">
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-top">
+
+        <div class="container footer-text">
+
+            © 2026 - Nhà Mèo Coffee & Milk Tea 🧋🐱
+
+        </div>
+
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts",
+        required: false)
+
+</body>
+</html>
