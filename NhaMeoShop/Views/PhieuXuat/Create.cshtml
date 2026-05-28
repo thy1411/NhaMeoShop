@@ -1,48 +1,206 @@
 ﻿@model NhaMeoShop.Models.PhieuXuat
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm phiếu xuất";
 }
 
-<h1>Create</h1>
+<style>
 
-<h4>PhieuXuat</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    body {
+        background: #f8f5f0;
+    }
+
+    .create-card {
+        background: white;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #6f4e37;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5c3d2e;
+    }
+
+    .form-control,
+    textarea {
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid #d6c3b8;
+    }
+
+        .form-control:focus,
+        textarea:focus {
+            border-color: #6f4e37;
+            box-shadow: 0 0 5px rgba(111,78,55,0.3);
+        }
+
+    .btn-custom {
+        border-radius: 10px;
+        padding: 10px 22px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+    .btn-save {
+        background: #6f4e37;
+        color: white;
+        border: none;
+    }
+
+        .btn-save:hover {
+            background: #5c3d2e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .btn-back {
+        background: #ddd;
+        color: black;
+        border: none;
+    }
+
+        .btn-back:hover {
+            background: #bbb;
+        }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="create-card">
+
+        <div class="page-title">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            Thêm phiếu xuất
+        </div>
+
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SoPX" class="control-label"></label>
-                <input asp-for="SoPX" class="form-control" />
-                <span asp-validation-for="SoPX" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayXuat" class="control-label"></label>
-                <input asp-for="NgayXuat" class="form-control" />
-                <span asp-validation-for="NgayXuat" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="XuatHang" class="control-label"></label>
-                <input asp-for="XuatHang" class="form-control" />
-                <span asp-validation-for="XuatHang" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChuPX" class="control-label"></label>
-                <input asp-for="GhiChuPX" class="form-control" />
-                <span asp-validation-for="GhiChuPX" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="row">
+
+                <!-- SỐ PHIẾU XUẤT -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="SoPX"
+                           class="form-label">
+
+                        Số phiếu xuất
+
+                    </label>
+
+                    <input asp-for="SoPX"
+                           class="form-control"
+                           placeholder="Nhập số phiếu xuất..." />
+
+                    <span asp-validation-for="SoPX"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- NGÀY XUẤT -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgayXuat"
+                           class="form-label">
+
+                        Ngày xuất
+
+                    </label>
+
+                    <input asp-for="NgayXuat"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgayXuat"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- NHÂN VIÊN XUẤT HÀNG -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="XuatHang"
+                           class="form-label">
+
+                        Nhân viên xuất hàng
+
+                    </label>
+
+                    <input asp-for="XuatHang"
+                           class="form-control"
+                           placeholder="Nhập tên nhân viên xuất hàng..." />
+
+                    <span asp-validation-for="XuatHang"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="col-md-12 mb-3">
+
+                    <label asp-for="GhiChuPX"
+                           class="form-label">
+
+                        Ghi chú
+
+                    </label>
+
+                    <textarea asp-for="GhiChuPX"
+                              rows="4"
+                              class="form-control"
+                              placeholder="Nhập ghi chú nếu có..."></textarea>
+
+                    <span asp-validation-for="GhiChuPX"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <button type="submit"
+                        class="btn btn-save btn-custom">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Lưu phiếu xuất
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-back btn-custom">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }

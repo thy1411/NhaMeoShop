@@ -1,0 +1,490 @@
+﻿@{
+    ViewData["Title"] = "Dashboard Admin";
+}
+
+<style>
+
+    body {
+        background: #f8f5e9;
+    }
+
+    .dashboard-title {
+        font-size: 38px;
+        font-weight: bold;
+        color: #5c3d2e;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-subtitle {
+        color: #8b6f5a;
+        margin-bottom: 35px;
+        font-size: 16px;
+    }
+
+    /* CARD THỐNG KÊ */
+    .card-box {
+        background: white;
+        border-radius: 22px;
+        padding: 28px;
+        text-align: center;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+        transition: 0.3s;
+        height: 100%;
+    }
+
+        .card-box:hover {
+            transform: translateY(-6px);
+        }
+
+    .dashboard-icon {
+        width: 80px;
+        height: 80px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f8f1eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+        .dashboard-icon i {
+            font-size: 36px;
+            color: #6f4e37;
+        }
+
+    .card-number {
+        font-size: 34px;
+        font-weight: bold;
+        color: #6f4e37;
+    }
+
+    .card-title {
+        color: gray;
+        margin-top: 10px;
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    /* QUẢN LÝ */
+    .manage-title {
+        font-size: 30px;
+        font-weight: bold;
+        color: #5c3d2e;
+        margin-bottom: 25px;
+    }
+
+    .manage-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        transition: 0.3s;
+        height: 100%;
+    }
+
+        .manage-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .manage-icon {
+        width: 75px;
+        height: 75px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f5ece5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .manage-icon i {
+            font-size: 32px;
+            color: #6f4e37;
+        }
+
+    .manage-card h5 {
+        font-size: 20px;
+        color: #5c3d2e;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    .btn-manage {
+        background: #6f4e37;
+        color: white;
+        border-radius: 12px;
+        padding: 10px 22px;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .btn-manage:hover {
+            background: #5a3f2c;
+            color: white;
+        }
+
+    .section-line {
+        border-top: 2px dashed #d7c3b5;
+        margin: 45px 0;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- TITLE -->
+    <div class="dashboard-title">
+        📊 Dashboard Admin
+    </div>
+
+    <div class="dashboard-subtitle">
+        Quản lý toàn bộ hệ thống Cà Phê & Trà Sữa Nhà Mèo
+    </div>
+
+    <!-- THỐNG KÊ -->
+    <div class="row g-4">
+
+        <!-- DOANH THU -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.DoanhThu.ToString("N0") đ
+                </div>
+
+                <div class="card-title">
+                    Doanh thu
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- HÓA ĐƠN -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-file-invoice"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.TongHoaDon
+                </div>
+
+                <div class="card-title">
+                    Hóa đơn
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SẢN PHẨM -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.TongSanPham
+                </div>
+
+                <div class="card-title">
+                    Sản phẩm
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LOẠI SẢN PHẨM -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.TongLoaiSP
+                </div>
+
+                <div class="card-title">
+                    Loại sản phẩm
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- NHÂN VIÊN -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.TongNhanVien
+                </div>
+
+                <div class="card-title">
+                    Nhân viên
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- KHÁCH HÀNG -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card-box">
+
+                <div class="dashboard-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="card-number">
+                    @ViewBag.TongKhachHang
+                </div>
+
+                <div class="card-title">
+                    Khách hàng
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LINE -->
+    <div class="section-line"></div>
+
+    <!-- QUẢN LÝ -->
+    <div class="manage-title">
+        ⚙️ Quản lý hệ thống
+    </div>
+
+    <div class="row g-4">
+
+        <!-- LOẠI NHÂN VIÊN -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-user-tag"></i>
+                </div>
+
+                <h5>
+                    Loại nhân viên
+                </h5>
+
+                <a asp-controller="LoaiNhanViens"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- NHÂN VIÊN -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <h5>
+                    Nhân viên
+                </h5>
+
+                <a asp-controller="Employees"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- HÓA ĐƠN -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+
+                <h5>
+                    Hóa đơn
+                </h5>
+
+                <a asp-controller="HoaDon"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PHIẾU NHẬP -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+
+                <h5>
+                    Phiếu nhập
+                </h5>
+
+                <a asp-controller="PhieuNhap"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PHIẾU XUẤT -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-truck"></i>
+                </div>
+
+                <h5>
+                    Phiếu xuất
+                </h5>
+
+                <a asp-controller="PhieuXuat"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- KHÁCH HÀNG -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+
+                <h5>
+                    Khách hàng
+                </h5>
+
+                <a asp-controller="KhachHangs"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- LOẠI SẢN PHẨM -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+
+                <h5>
+                    Loại sản phẩm
+                </h5>
+
+                <a asp-controller="Categories"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- SẢN PHẨM -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <div class="manage-card">
+
+                <div class="manage-icon">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+
+                <h5>
+                    Sản phẩm
+                </h5>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-manage">
+
+                    Xem
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

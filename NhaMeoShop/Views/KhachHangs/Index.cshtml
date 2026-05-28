@@ -1,19 +1,19 @@
-﻿@model IEnumerable<NhaMeoShop.Models.PhieuNhap>
+﻿@model IEnumerable<NhaMeoShop.Models.KhachHang>
 
 @{
-    ViewData["Title"] = "Danh sách phiếu nhập";
+    ViewData["Title"] = "Danh sách khách hàng";
 }
 
 <style>
 
     body {
-        background: #fff8f5;
+        background: #fdf6f0;
     }
 
     .page-title {
-        font-size: 38px;
-        font-weight: bold;
         color: #6f4e37;
+        font-size: 42px;
+        font-weight: bold;
     }
 
     .top-bar {
@@ -27,7 +27,7 @@
         background: #6f4e37;
         color: white;
         border-radius: 12px;
-        padding: 10px 22px;
+        padding: 10px 20px;
         font-weight: bold;
         text-decoration: none;
         transition: 0.3s;
@@ -43,7 +43,7 @@
         background: white;
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     }
 
     .table {
@@ -64,6 +64,7 @@
 
         .table td {
             vertical-align: middle;
+            text-align: center;
             padding: 14px;
         }
 
@@ -72,10 +73,10 @@
             transition: 0.2s;
         }
 
-    .badge-delivery {
+    .badge-role {
         background: #f3e5d8;
         color: #6f4e37;
-        padding: 7px 14px;
+        padding: 7px 12px;
         border-radius: 999px;
         font-size: 13px;
         font-weight: bold;
@@ -88,7 +89,6 @@
         color: white;
         margin: 2px;
         transition: 0.2s;
-        text-decoration: none;
     }
 
         .btn-action:hover {
@@ -122,14 +122,14 @@
     <div class="top-bar">
 
         <h1 class="page-title">
-            📦 Danh sách phiếu nhập
+            👥 Danh sách khách hàng
         </h1>
 
         <a asp-action="Create"
            class="btn-create">
 
             <i class="fa-solid fa-plus"></i>
-            Tạo phiếu nhập
+            Thêm khách hàng
 
         </a>
 
@@ -144,17 +144,19 @@
 
                 <tr>
 
-                    <th>Số PN</th>
+                    <th>Tên khách hàng</th>
 
-                    <th>Ngày nhập</th>
+                    <th>Ngày sinh</th>
 
-                    <th>Người giao hàng</th>
+                    <th>SĐT</th>
+
+                    <th>Ngày đăng ký</th>
+
+                    <th>Email</th>
 
                     <th>Ghi chú</th>
 
-                    <th>Mã NV</th>
-
-                    <th>Mã NCC</th>
+                    <th>Loại KH</th>
 
                     <th width="220">
                         Chức năng
@@ -172,41 +174,47 @@
                     {
                         <tr>
 
-                            <td class="text-center fw-bold">
-                                @item.SoPN
+                            <td>
+                                <strong>
+                                    @item.TenKH
+                                </strong>
                             </td>
 
-                            <td class="text-center">
-                                @item.NgayNhap.ToString("dd/MM/yyyy")
+                            <td>
+                                @item.NgaySinhKH.ToString("dd/MM/yyyy")
                             </td>
 
-                            <td class="text-center">
+                            <td>
+                                @item.SoDTKH
+                            </td>
 
-                                <span class="badge-delivery">
-                                    @item.GiaoHang
+                            <td>
+                                @item.NgayDKTV.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @item.Email
+                            </td>
+
+                            <td>
+                                @(string.IsNullOrEmpty(item.GhiChuKH)
+                                    ? "Không có"
+                                    : item.GhiChuKH)
+                            </td>
+
+                            <td>
+
+                                <span class="badge-role">
+                                    @item.MaLoaiKH
                                 </span>
 
                             </td>
 
                             <td>
-                                @(string.IsNullOrEmpty(item.GhiChuPN)
-                                    ? "Không có ghi chú"
-                                    : item.GhiChuPN)
-                            </td>
-
-                            <td class="text-center">
-                                @item.MaNV
-                            </td>
-
-                            <td class="text-center">
-                                @item.MaNCC
-                            </td>
-
-                            <td class="text-center">
 
                                 <!-- EDIT -->
                                 <a asp-action="Edit"
-                                   asp-route-id="@item.SoPN"
+                                   asp-route-id="@item.MaKH"
                                    class="btn-action btn-edit">
 
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -215,7 +223,7 @@
 
                                 <!-- DETAILS -->
                                 <a asp-action="Details"
-                                   asp-route-id="@item.SoPN"
+                                   asp-route-id="@item.MaKH"
                                    class="btn-action btn-detail">
 
                                     <i class="fa-solid fa-eye"></i>
@@ -224,7 +232,7 @@
 
                                 <!-- DELETE -->
                                 <a asp-action="Delete"
-                                   asp-route-id="@item.SoPN"
+                                   asp-route-id="@item.MaKH"
                                    class="btn-action btn-delete">
 
                                     <i class="fa-solid fa-trash"></i>
@@ -240,10 +248,10 @@
                 {
                     <tr>
 
-                        <td colspan="7"
+                        <td colspan="8"
                             class="empty-box">
 
-                            Chưa có phiếu nhập nào 📭
+                            Chưa có khách hàng nào 🐾
 
                         </td>
 

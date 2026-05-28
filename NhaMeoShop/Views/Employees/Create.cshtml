@@ -1,83 +1,340 @@
 ﻿@model NhaMeoShop.Models.NhanVien
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm nhân viên";
 }
 
-<h1>Create</h1>
+<style>
 
-<h4>NhanVien</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    body {
+        background: #fff8f5;
+    }
+
+    .create-container {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .create-card {
+        background: white;
+        border-radius: 25px;
+        padding: 35px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: bold;
+        color: #6f4e37;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5c3d2e;
+        margin-bottom: 6px;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+        height: 45px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    .btn-save {
+        background: #6f4e37;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 25px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-save:hover {
+            background: #5a3f2c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .btn-back {
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+    .gender-box {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-top: 8px;
+    }
+
+    .gender-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container mt-4 create-container">
+
+    <div class="create-card">
+
+        <div class="page-title">
+            ➕ Thêm nhân viên
+        </div>
+
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaNV" class="control-label"></label>
-                <input asp-for="MaNV" class="form-control" />
-                <span asp-validation-for="MaNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenNV" class="control-label"></label>
-                <input asp-for="TenNV" class="form-control" />
-                <span asp-validation-for="TenNV" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PhaiNV" /> @Html.DisplayNameFor(model => model.PhaiNV)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgaySinhNV" class="control-label"></label>
-                <input asp-for="NgaySinhNV" class="form-control" />
-                <span asp-validation-for="NgaySinhNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SoDTNV" class="control-label"></label>
-                <input asp-for="SoDTNV" class="form-control" />
-                <span asp-validation-for="SoDTNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiaChiNV" class="control-label"></label>
-                <input asp-for="DiaChiNV" class="form-control" />
-                <span asp-validation-for="DiaChiNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CCCD" class="control-label"></label>
-                <input asp-for="CCCD" class="form-control" />
-                <span asp-validation-for="CCCD" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TKNganHangNV" class="control-label"></label>
-                <input asp-for="TKNganHangNV" class="form-control" />
-                <span asp-validation-for="TKNganHangNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenNganHangNV" class="control-label"></label>
-                <input asp-for="TenNganHangNV" class="form-control" />
-                <span asp-validation-for="TenNganHangNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChuNV" class="control-label"></label>
-                <input asp-for="GhiChuNV" class="form-control" />
-                <span asp-validation-for="GhiChuNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaLoaiNV" class="control-label"></label>
-                <input asp-for="MaLoaiNV" class="form-control" />
-                <span asp-validation-for="MaLoaiNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="row">
+
+                <!-- MÃ NHÂN VIÊN -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaNV"
+                           class="form-label">
+                        Mã nhân viên
+                    </label>
+
+                    <input asp-for="MaNV"
+                           class="form-control"
+                           placeholder="Nhập mã nhân viên..." />
+
+                    <span asp-validation-for="MaNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- TÊN NHÂN VIÊN -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="TenNV"
+                           class="form-label">
+                        Tên nhân viên
+                    </label>
+
+                    <input asp-for="TenNV"
+                           class="form-control"
+                           placeholder="Nhập tên nhân viên..." />
+
+                    <span asp-validation-for="TenNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- GIỚI TÍNH -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Giới tính
+                    </label>
+
+                    <div class="gender-box">
+
+                        <div class="gender-item">
+                            <input type="radio"
+                                   asp-for="PhaiNV"
+                                   value="true" />
+                            Nam
+                        </div>
+
+                        <div class="gender-item">
+                            <input type="radio"
+                                   asp-for="PhaiNV"
+                                   value="false" />
+                            Nữ
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NGÀY SINH -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgaySinhNV"
+                           class="form-label">
+                        Ngày sinh
+                    </label>
+
+                    <input asp-for="NgaySinhNV"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgaySinhNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- SĐT -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="SoDTNV"
+                           class="form-label">
+                        Số điện thoại
+                    </label>
+
+                    <input asp-for="SoDTNV"
+                           class="form-control"
+                           placeholder="Nhập số điện thoại..." />
+
+                    <span asp-validation-for="SoDTNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- ĐỊA CHỈ -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="DiaChiNV"
+                           class="form-label">
+                        Địa chỉ
+                    </label>
+
+                    <input asp-for="DiaChiNV"
+                           class="form-control"
+                           placeholder="Nhập địa chỉ..." />
+
+                    <span asp-validation-for="DiaChiNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- CCCD -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="CCCD"
+                           class="form-label">
+                        CCCD
+                    </label>
+
+                    <input asp-for="CCCD"
+                           class="form-control"
+                           placeholder="Nhập CCCD..." />
+
+                    <span asp-validation-for="CCCD"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- TÀI KHOẢN NGÂN HÀNG -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="TKNganHangNV"
+                           class="form-label">
+                        Tài khoản ngân hàng
+                    </label>
+
+                    <input asp-for="TKNganHangNV"
+                           class="form-control"
+                           placeholder="Nhập tài khoản ngân hàng..." />
+
+                    <span asp-validation-for="TKNganHangNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- TÊN NGÂN HÀNG -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="TenNganHangNV"
+                           class="form-label">
+                        Tên ngân hàng
+                    </label>
+
+                    <input asp-for="TenNganHangNV"
+                           class="form-control"
+                           placeholder="Nhập tên ngân hàng..." />
+
+                    <span asp-validation-for="TenNganHangNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- LOẠI NHÂN VIÊN -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaLoaiNV"
+                           class="form-label">
+                        Loại nhân viên
+                    </label>
+
+                    <select asp-for="MaLoaiNV"
+                            class="form-select"
+                            asp-items="ViewBag.MaLoaiNV">
+
+                        <option value="">
+                            -- Chọn loại nhân viên --
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="MaLoaiNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="col-12 mb-4">
+
+                    <label asp-for="GhiChuNV"
+                           class="form-label">
+                        Ghi chú
+                    </label>
+
+                    <textarea asp-for="GhiChuNV"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Nhập ghi chú..."></textarea>
+
+                    <span asp-validation-for="GhiChuNV"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="d-flex justify-content-between">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary btn-back">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+                <button type="submit"
+                        class="btn btn-save">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Thêm nhân viên
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }

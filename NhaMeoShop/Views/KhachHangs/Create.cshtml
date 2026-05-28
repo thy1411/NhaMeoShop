@@ -1,0 +1,291 @@
+﻿@model NhaMeoShop.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Thêm khách hàng";
+}
+
+<style>
+
+    .page-title {
+        color: #0d6efd;
+        font-weight: bold;
+    }
+
+    .customer-card {
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5a3e2b;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .btn-save {
+        background: #28a745;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 25px;
+        font-weight: bold;
+        border: none;
+    }
+
+        .btn-save:hover {
+            background: #218838;
+            color: white;
+        }
+
+    .btn-back {
+        background: #6c757d;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 25px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-back:hover {
+            background: #5a6268;
+            color: white;
+        }
+</style>
+
+<div class="container mt-4">
+
+    <h1 class="page-title mb-4">
+        <i class="fa-solid fa-user-plus"></i>
+        Thêm khách hàng
+    </h1>
+
+    <div class="customer-card">
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="row">
+
+                <!-- Mã khách hàng -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaKH"
+                           class="form-label">
+                        Mã khách hàng
+                    </label>
+
+                    <input asp-for="MaKH"
+                           class="form-control" />
+
+                    <span asp-validation-for="MaKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Tên khách hàng -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="TenKH"
+                           class="form-label">
+                        Tên khách hàng
+                    </label>
+
+                    <input asp-for="TenKH"
+                           class="form-control" />
+
+                    <span asp-validation-for="TenKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Ngày sinh -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgaySinhKH"
+                           class="form-label">
+                        Ngày sinh
+                    </label>
+
+                    <input asp-for="NgaySinhKH"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgaySinhKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="SoDTKH"
+                           class="form-label">
+                        Số điện thoại
+                    </label>
+
+                    <input asp-for="SoDTKH"
+                           class="form-control" />
+
+                    <span asp-validation-for="SoDTKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Ngày đăng ký -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgayDKTV"
+                           class="form-label">
+                        Ngày đăng ký thành viên
+                    </label>
+
+                    <input asp-for="NgayDKTV"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgayDKTV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Email"
+                           class="form-label">
+                        Email
+                    </label>
+
+                    <input asp-for="Email"
+                           class="form-control" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Password -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Password"
+                           class="form-label">
+                        Mật khẩu
+                    </label>
+
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control" />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- UserId -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="UserId"
+                           class="form-label">
+                        User ID
+                    </label>
+
+                    <input asp-for="UserId"
+                           class="form-control" />
+
+                    <span asp-validation-for="UserId"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Loại khách hàng -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaLoaiKH"
+                           class="form-label">
+                        Loại khách hàng
+                    </label>
+
+                    <select asp-for="MaLoaiKH"
+                            class="form-control">
+
+                        <option value="">
+                            -- Chọn loại khách hàng --
+                        </option>
+
+                        <option value="VIP">
+                            VIP
+                        </option>
+
+                        <option value="TV">
+                            Thành viên
+                        </option>
+
+                        <option value="TT">
+                            Thân thiết
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="MaLoaiKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- Ghi chú -->
+                <div class="col-md-12 mb-3">
+
+                    <label asp-for="GhiChuKH"
+                           class="form-label">
+                        Ghi chú
+                    </label>
+
+                    <textarea asp-for="GhiChuKH"
+                              class="form-control"
+                              rows="3"></textarea>
+
+                    <span asp-validation-for="GhiChuKH"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="mt-4">
+
+                <button type="submit"
+                        class="btn-save">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Thêm khách hàng
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn-back ms-2">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

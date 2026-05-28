@@ -10,7 +10,7 @@ using NhaMeoShop.Models;
 namespace NhaMeoShop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260522091311_TaoCSDLNhaMeo")]
+    [Migration("20260525113800_TaoCSDLNhaMeo")]
     partial class TaoCSDLNhaMeo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -377,6 +377,10 @@ namespace NhaMeoShop.Migrations
                     b.Property<string>("MaKH")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("GhiChuKH")
                         .HasColumnType("nvarchar(max)");
 
@@ -392,11 +396,18 @@ namespace NhaMeoShop.Migrations
                     b.Property<DateTime>("NgaySinhKH")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SoDTKH")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenKH")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaKH");

@@ -1,0 +1,329 @@
+﻿@model NhaMeoShop.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Chi tiết khách hàng";
+}
+
+<style>
+
+    body {
+        background: #fdf6f0;
+    }
+
+    .details-container {
+        max-width: 950px;
+        margin: auto;
+    }
+
+    .details-card {
+        background: white;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 38px;
+        font-weight: bold;
+        color: #6f4e37;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .info-box {
+        background: #fff8f2;
+        border-radius: 15px;
+        padding: 18px;
+        margin-bottom: 18px;
+        border-left: 5px solid #6f4e37;
+        height: 100%;
+    }
+
+    .info-label {
+        font-size: 14px;
+        color: gray;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-size: 18px;
+        font-weight: bold;
+        color: #4b2e2e;
+        word-break: break-word;
+    }
+
+    .badge-role {
+        background: #6f4e37;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .btn-group-custom {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn-edit {
+        background: #0d6efd;
+        color: white;
+        padding: 12px 22px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        transition: 0.3s;
+    }
+
+        .btn-edit:hover {
+            background: #0b5ed7;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .btn-back {
+        background: #e9ecef;
+        color: black;
+        padding: 12px 22px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-back:hover {
+            background: #d6d6d6;
+            color: black;
+        }
+
+    .password-box {
+        letter-spacing: 2px;
+    }
+</style>
+
+<div class="container mt-4 details-container">
+
+    <div class="details-card">
+
+        <h1 class="page-title">
+            <i class="fa-solid fa-user"></i>
+            Chi tiết khách hàng
+        </h1>
+
+        <div class="row">
+
+            <!-- MÃ KH -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Mã khách hàng
+                    </div>
+
+                    <div class="info-value">
+                        @Model.MaKH
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TÊN KH -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Tên khách hàng
+                    </div>
+
+                    <div class="info-value">
+                        @Model.TenKH
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- NGÀY SINH -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Ngày sinh
+                    </div>
+
+                    <div class="info-value">
+                        @Model.NgaySinhKH.ToString("dd/MM/yyyy")
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SỐ ĐIỆN THOẠI -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Số điện thoại
+                    </div>
+
+                    <div class="info-value">
+                        @Model.SoDTKH
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- NGÀY ĐĂNG KÝ -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Ngày đăng ký thành viên
+                    </div>
+
+                    <div class="info-value">
+                        @Model.NgayDKTV.ToString("dd/MM/yyyy")
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EMAIL -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Email
+                    </div>
+
+                    <div class="info-value">
+                        @Model.Email
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Mật khẩu
+                    </div>
+
+                    <div class="info-value password-box">
+                        ••••••••
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- USER ID -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        User ID
+                    </div>
+
+                    <div class="info-value">
+
+                        @(string.IsNullOrEmpty(Model.UserId)
+                            ? "Chưa liên kết"
+                            : Model.UserId)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOẠI KHÁCH HÀNG -->
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Loại khách hàng
+                    </div>
+
+                    <div class="info-value">
+
+                        <span class="badge-role">
+
+                            @(Model.LoaiKH != null
+                                ? Model.LoaiKH.TenLoaiKH
+                                : Model.MaLoaiKH)
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- GHI CHÚ -->
+            <div class="col-12">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Ghi chú
+                    </div>
+
+                    <div class="info-value">
+
+                        @(string.IsNullOrWhiteSpace(Model.GhiChuKH)
+                            ? "Không có ghi chú"
+                            : Model.GhiChuKH)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BUTTON -->
+        <div class="btn-group-custom">
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.MaKH"
+               class="btn-edit">
+
+                <i class="fa-solid fa-pen-to-square"></i>
+                Chỉnh sửa
+
+            </a>
+
+            <a asp-action="Index"
+               class="btn-back">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Quay lại
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

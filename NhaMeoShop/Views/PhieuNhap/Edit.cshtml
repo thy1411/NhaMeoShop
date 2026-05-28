@@ -1,54 +1,252 @@
 ﻿@model NhaMeoShop.Models.PhieuNhap
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa phiếu nhập";
 }
 
-<h1>Edit</h1>
+<style>
 
-<h4>PhieuNhap</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    body {
+        background: #fff8f5;
+    }
+
+    .edit-container {
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 0;
+    }
+
+    .edit-box {
+        width: 100%;
+        max-width: 800px;
+        background: white;
+        padding: 35px;
+        border-radius: 22px;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: bold;
+        color: #5c3d2e;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .sub-title {
+        text-align: center;
+        color: gray;
+        margin-bottom: 30px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5c3d2e;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    textarea {
+        border-radius: 12px;
+        border: 1px solid #d6c3b8;
+        padding: 10px;
+    }
+
+        .form-control:focus,
+        textarea:focus {
+            border-color: #6f4e37;
+            box-shadow: 0 0 5px rgba(111,78,55,0.3);
+        }
+
+    .btn-save {
+        background: #6f4e37;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        height: 50px;
+        width: 100%;
+        font-size: 17px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-save:hover {
+            background: #5a3f2c;
+        }
+
+    .btn-back {
+        display: inline-block;
+        margin-top: 18px;
+        text-decoration: none;
+        color: #6f4e37;
+        font-weight: bold;
+    }
+
+        .btn-back:hover {
+            color: #4b2e2e;
+        }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>
+
+<div class="edit-container">
+
+    <div class="edit-box">
+
+        <!-- TITLE -->
+        <div class="page-title">
+            ✏️ Chỉnh sửa phiếu nhập
+        </div>
+
+        <div class="sub-title">
+            Cập nhật thông tin phiếu nhập hàng
+        </div>
+
+        <!-- FORM -->
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SoPN" />
-            <div class="form-group">
-                <label asp-for="NgayNhap" class="control-label"></label>
-                <input asp-for="NgayNhap" class="form-control" />
-                <span asp-validation-for="NgayNhap" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GiaoHang" class="control-label"></label>
-                <input asp-for="GiaoHang" class="form-control" />
-                <span asp-validation-for="GiaoHang" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChuPN" class="control-label"></label>
-                <input asp-for="GhiChuPN" class="form-control" />
-                <span asp-validation-for="GhiChuPN" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaNV" class="control-label"></label>
-                <input asp-for="MaNV" class="form-control" />
-                <span asp-validation-for="MaNV" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaNCC" class="control-label"></label>
-                <input asp-for="MaNCC" class="form-control" />
-                <span asp-validation-for="MaNCC" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <input type="hidden"
+                   asp-for="SoPN" />
+
+            <div class="row">
+
+                <!-- NGÀY NHẬP -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgayNhap"
+                           class="form-label">
+
+                        Ngày nhập
+
+                    </label>
+
+                    <input asp-for="NgayNhap"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgayNhap"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- NGƯỜI GIAO HÀNG -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="GiaoHang"
+                           class="form-label">
+
+                        Người giao hàng
+
+                    </label>
+
+                    <input asp-for="GiaoHang"
+                           class="form-control"
+                           placeholder="Nhập tên người giao hàng..." />
+
+                    <span asp-validation-for="GiaoHang"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- MÃ NHÂN VIÊN -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaNV"
+                           class="form-label">
+
+                        Mã nhân viên
+
+                    </label>
+
+                    <input asp-for="MaNV"
+                           class="form-control"
+                           placeholder="Nhập mã nhân viên..." />
+
+                    <span asp-validation-for="MaNV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- MÃ NHÀ CUNG CẤP -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaNCC"
+                           class="form-label">
+
+                        Mã nhà cung cấp
+
+                    </label>
+
+                    <input asp-for="MaNCC"
+                           class="form-control"
+                           placeholder="Nhập mã nhà cung cấp..." />
+
+                    <span asp-validation-for="MaNCC"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="col-md-12 mb-4">
+
+                    <label asp-for="GhiChuPN"
+                           class="form-label">
+
+                        Ghi chú
+
+                    </label>
+
+                    <textarea asp-for="GhiChuPN"
+                              rows="4"
+                              class="form-control"
+                              placeholder="Nhập ghi chú nếu có..."></textarea>
+
+                    <span asp-validation-for="GhiChuPN"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                    class="btn-save">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                Lưu thay đổi
+
+            </button>
+
+        </form>
+
+        <!-- BACK -->
+        <div class="text-center">
+
+            <a asp-action="Index"
+               class="btn-back">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Quay lại danh sách
+
+            </a>
+
+        </div>
+
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }

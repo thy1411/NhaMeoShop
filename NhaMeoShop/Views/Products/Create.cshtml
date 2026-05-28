@@ -1,57 +1,264 @@
 ﻿@model NhaMeoShop.Models.SanPham
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm sản phẩm";
 }
 
-<h1>Create</h1>
+<style>
 
-<h4>SanPham</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    body {
+        background: #f8f5f0;
+    }
+
+    .create-card {
+        background: white;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #6f4e37;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5c3d2e;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    textarea.form-control {
+        resize: none;
+    }
+
+    .btn-custom {
+        border-radius: 10px;
+        padding: 10px 22px;
+        font-weight: 500;
+    }
+
+    .btn-save {
+        background: #6f4e37;
+        color: white;
+        border: none;
+    }
+
+        .btn-save:hover {
+            background: #5c3d2e;
+            color: white;
+        }
+
+    .btn-back {
+        background: #ddd;
+        color: black;
+        border: none;
+    }
+
+        .btn-back:hover {
+            background: #bbb;
+        }
+
+    .text-danger {
+        font-size: 14px;
+    }
+
+    .preview-img {
+        width: 100%;
+        max-width: 250px;
+        height: 250px;
+        object-fit: contain;
+        border-radius: 15px;
+        border: 2px dashed #ddd;
+        padding: 10px;
+        margin-top: 10px;
+        background: #fff;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="create-card">
+
+        <div class="page-title">
+            <i class="fa-solid fa-mug-hot"></i>
+            Thêm sản phẩm
+        </div>
+
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaSP" class="control-label"></label>
-                <input asp-for="MaSP" class="form-control" />
-                <span asp-validation-for="MaSP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenSP" class="control-label"></label>
-                <input asp-for="TenSP" class="form-control" />
-                <span asp-validation-for="TenSP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DonGiaSP" class="control-label"></label>
-                <input asp-for="DonGiaSP" class="form-control" />
-                <span asp-validation-for="DonGiaSP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HinhAnhSP" class="control-label"></label>
-                <input asp-for="HinhAnhSP" class="form-control" />
-                <span asp-validation-for="HinhAnhSP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChuSP" class="control-label"></label>
-                <input asp-for="GhiChuSP" class="form-control" />
-                <span asp-validation-for="GhiChuSP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaLoaiSP" class="control-label"></label>
-                <select asp-for="MaLoaiSP" class ="form-control" asp-items="ViewBag.MaLoaiSP"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="row">
+
+                <!-- LEFT -->
+                <div class="col-md-6">
+
+                    <div class="mb-3">
+
+                        <label asp-for="MaSP"
+                               class="form-label">
+
+                            Mã sản phẩm
+
+                        </label>
+
+                        <input asp-for="MaSP"
+                               class="form-control" />
+
+                        <span asp-validation-for="MaSP"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="TenSP"
+                               class="form-label">
+
+                            Tên sản phẩm
+
+                        </label>
+
+                        <input asp-for="TenSP"
+                               class="form-control" />
+
+                        <span asp-validation-for="TenSP"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="DonGiaSP"
+                               class="form-label">
+
+                            Đơn giá
+
+                        </label>
+
+                        <input asp-for="DonGiaSP"
+                               class="form-control" />
+
+                        <span asp-validation-for="DonGiaSP"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="MaLoaiSP"
+                               class="form-label">
+
+                            Loại sản phẩm
+
+                        </label>
+
+                        <select asp-for="MaLoaiSP"
+                                class="form-select"
+                                asp-items="ViewBag.MaLoaiSP">
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="col-md-6">
+
+                    <div class="mb-3">
+
+                        <label asp-for="HinhAnhSP"
+                               class="form-label">
+
+                            Hình ảnh sản phẩm
+
+                        </label>
+
+                        <input asp-for="HinhAnhSP"
+                               class="form-control"
+                               id="imgInput" />
+
+                        <span asp-validation-for="HinhAnhSP"
+                              class="text-danger"></span>
+
+                        <img id="preview"
+                             src="~/images/no-image.png"
+                             class="preview-img" />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="GhiChuSP"
+                               class="form-label">
+
+                            Ghi chú
+
+                        </label>
+
+                        <textarea asp-for="GhiChuSP"
+                                  rows="5"
+                                  class="form-control"></textarea>
+
+                        <span asp-validation-for="GhiChuSP"
+                              class="text-danger"></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <button type="submit"
+                        class="btn btn-save btn-custom">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Lưu sản phẩm
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-back btn-custom">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        document.getElementById("imgInput")
+            .addEventListener("input", function () {
+
+                document.getElementById("preview").src = this.value;
+
+            });
+
+    </script>
+
 }

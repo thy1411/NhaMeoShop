@@ -260,6 +260,9 @@ namespace NhaMeoShop.Migrations
                     NgaySinhKH = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SoDTKH = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NgayDKTV = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GhiChuKH = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaLoaiKH = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LoaiKHMaLoaiKH = table.Column<string>(type: "nvarchar(450)", nullable: true)

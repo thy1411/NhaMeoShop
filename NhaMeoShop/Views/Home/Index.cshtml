@@ -4,52 +4,98 @@
     ViewData["Title"] = "Trang chủ";
 }
 
+<style>
+
+    .banner-img {
+        height: 420px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .product-card {
+        border-radius: 18px;
+        overflow: hidden;
+        transition: 0.3s;
+        background: white;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .product-img {
+        height: 230px;
+        width: 100%;
+        object-fit: contain;
+        background: white;
+        padding: 12px;
+    }
+
+    .product-title {
+        font-size: 20px;
+        font-weight: bold;
+        min-height: 55px;
+    }
+
+    .product-price {
+        color: #dc3545;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .category-title {
+        font-size: 18px;
+        padding: 16px;
+    }
+
+    .category-item {
+        font-size: 18px;
+        padding: 18px 20px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+        .category-item:hover {
+            background: #fff0eb;
+            padding-left: 28px;
+            color: #dc3545;
+        }
+
+    .btn-cart {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 18px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+</style>
+
 <div class="container-fluid mt-3">
 
     <!-- BANNER -->
-    <div id="mainBanner"
-         class="carousel slide mb-4 shadow rounded"
-         data-ride="carousel">
+    <div id="mainBanner" class="carousel slide mb-4 shadow rounded" data-ride="carousel">
 
         <ol class="carousel-indicators">
 
-            <li data-target="#mainBanner"
-                data-slide-to="0"
-                class="active"></li>
+            <li data-target="#mainBanner" data-slide-to="0" class="active"></li>
 
-            <li data-target="#mainBanner"
-                data-slide-to="1"></li>
+            <li data-target="#mainBanner" data-slide-to="1"></li>
 
-            <li data-target="#mainBanner"
-                data-slide-to="2"></li>
+            <li data-target="#mainBanner" data-slide-to="2"></li>
 
         </ol>
 
         <div class="carousel-inner rounded">
 
-            <div class="carousel-item active">
+            <div class="carousel-item active"><img src="~/images/Banner1.jpg" class="d-block w-100 banner-img" /></div>
 
-                <img src="~/images/Banner1.jpg"
-                     class="d-block w-100"
-                     style="height:420px; object-fit:cover;" />
+            <div class="carousel-item"><img src="~/images/Banner2.png" class="d-block w-100 banner-img" /></div>
 
-            </div>
-
-            <div class="carousel-item">
-
-                <img src="~/images/Banner2.png"
-                     class="d-block w-100"
-                     style="height:420px; object-fit:cover;" />
-
-            </div>
-
-            <div class="carousel-item">
-
-                <img src="~/images/Banner3.jpg"
-                     class="d-block w-100"
-                     style="height:420px; object-fit:cover;" />
-
-            </div>
+            <div class="carousel-item"><img src="~/images/Banner3.jpg" class="d-block w-100 banner-img" /></div>
 
         </div>
 
@@ -59,68 +105,27 @@
     <div class="row">
 
         <!-- MENU LEFT -->
-        <div class="col-md-2">
+        <div class="col-md-3">
 
             <div class="card shadow border-0">
 
-                <div class="card-header
-                            bg-danger
-                            text-white
-                            fw-bold">
-
+                <div class="card-header bg-danger text-white fw-bold category-title">
                     Danh mục sản phẩm
-
                 </div>
 
                 <div class="list-group list-group-flush">
 
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="CF" class="list-group-item list-group-item-action"> Cà phê</a>
 
-                        Cà phê
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TS" class="list-group-item list-group-item-action"> Trà sữa </a>
 
-                    </a>
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="NE" class="list-group-item list-group-item-action"> Nước ép </a>
 
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="ST" class="list-group-item list-group-item-action"> Sinh tố </a>
 
-                        Trà sữa
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TC" class="list-group-item list-group-item-action"> Trà trái cây </a>
 
-                    </a>
-
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
-
-                        Nước ép
-
-                    </a>
-
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
-
-                        Sinh tố
-
-                    </a>
-
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
-
-                        Trà trái cây
-
-                    </a>
-
-                    <a href="#"
-                       class="list-group-item
-                              list-group-item-action">
-
-                        Topping
-
-                    </a>
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TP" class="list-group-item list-group-item-action"> Topping </a>
 
                 </div>
 
@@ -129,130 +134,38 @@
         </div>
 
         <!-- RIGHT CONTENT -->
-        <div class="col-md-10">
+        <div class="col-md-9">
 
             <div class="card shadow border-0">
 
-                <div class="card-header
-                            bg-warning
-                            text-dark
-                            fw-bold
-                            fs-4">
-
-                    🧋 Loại sản phẩm nổi bật
-
+                <div class="card-header bg-warning text-dark fw-bold section-title">
+                    Sản phẩm nổi bật
                 </div>
 
                 <div class="card-body">
 
-                    <!-- HÀNG 1 -->
-                    <div class="row mb-4">
+                    <div class="row">
 
                         <!-- CÀ PHÊ -->
                         @foreach (var item in Model.Where(x => x.MaLoaiSP == "CF").Take(1))
                         {
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-4">
 
-                                <div class="card
-                                            h-100
-                                            shadow-sm
-                                            border-0">
-
-                                    <img src="~/images/@item.HinhAnhSP"
-                                         class="card-img-top"
-                                         style="height:260px;
-                                                object-fit:cover;" />
-
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
                                     <div class="card-body text-center">
+                                        <h4 class="product-title"> @item.TenSP </h4>
 
-                                        <h4 class="fw-bold">
-                                            ☕ @item.TenSP
-                                        </h4>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
 
-                                        <p class="text-danger
-                                                  fw-bold
-                                                  fs-4">
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
 
-                                            @item.DonGiaSP.ToString("N0") đ
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        }
-
-                        <!-- NƯỚC ÉP -->
-                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "NE").Take(1))
-                        {
-                            <div class="col-md-6">
-
-                                <div class="card
-                                            h-100
-                                            shadow-sm
-                                            border-0">
-
-                                    <img src="~/images/@item.HinhAnhSP"
-                                         class="card-img-top"
-                                         style="height:260px;
-                                                object-fit:cover;" />
-
-                                    <div class="card-body text-center">
-
-                                        <h4 class="fw-bold">
-                                            🍊 @item.TenSP
-                                        </h4>
-
-                                        <p class="text-danger
-                                                  fw-bold
-                                                  fs-4">
-
-                                            @item.DonGiaSP.ToString("N0") đ
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        }
-
-                    </div>
-
-                    <!-- HÀNG 2 -->
-                    <div class="row">
-
-                        <!-- SINH TỐ -->
-                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "ST").Take(1))
-                        {
-                            <div class="col-md-6">
-
-                                <div class="card
-                                            h-100
-                                            shadow-sm
-                                            border-0">
-
-                                    <img src="~/images/@item.HinhAnhSP"
-                                         class="card-img-top"
-                                         style="height:260px;
-                                                object-fit:cover;" />
-
-                                    <div class="card-body text-center">
-
-                                        <h4 class="fw-bold">
-                                            🍓 @item.TenSP
-                                        </h4>
-
-                                        <p class="text-danger
-                                                  fw-bold
-                                                  fs-4">
-
-                                            @item.DonGiaSP.ToString("N0") đ
-
-                                        </p>
+                                        </div>
 
                                     </div>
 
@@ -264,36 +177,115 @@
                         <!-- TRÀ SỮA -->
                         @foreach (var item in Model.Where(x => x.MaLoaiSP == "TS").Take(1))
                         {
-                            <div class="col-md-6">
-
-                                <div class="card
-                                            h-100
-                                            shadow-sm
-                                            border-0">
-
-                                    <img src="~/images/@item.HinhAnhSP"
-                                         class="card-img-top"
-                                         style="height:260px;
-                                                object-fit:cover;" />
-
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
                                     <div class="card-body text-center">
-
-                                        <h4 class="fw-bold">
-                                            🧋 @item.TenSP
+                                        <h4 class="product-title">
+                                            @item.TenSP
                                         </h4>
-
-                                        <p class="text-danger
-                                                  fw-bold
-                                                  fs-4">
-
-                                            @item.DonGiaSP.ToString("N0") đ
-
-                                        </p>
-
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </div>
                                     </div>
-
                                 </div>
+                            </div>
+                        }
 
+                        <!-- NƯỚC ÉP -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "NE").Take(1))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
+                                    <div class="card-body text-center">
+                                        <h4 class="product-title">
+                                            @item.TenSP
+                                        </h4>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- SINH TỐ -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "ST").Take(1))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
+                                    <div class="card-body text-center">
+                                        <h4 class="product-title">
+                                            @item.TenSP
+                                        </h4>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- TRÀ TRÁI CÂY -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "TC").Take(1))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
+                                    <div class="card-body text-center">
+                                        <h4 class="product-title">
+                                            @item.TenSP
+                                        </h4>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- TOPPING -->
+                        @foreach (var item in Model.Where(x => x.MaLoaiSP == "TP").Take(1))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <img src="~/images/@item.HinhAnhSP" class="card-img-top product-img" />
+                                    <div class="card-body text-center">
+                                        <h4 class="product-title">
+                                            @item.TenSP
+                                        </h4>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="product-price">
+                                                @item.DonGiaSP.ToString("N0") đ
+                                            </div>
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" class="btn btn-success btn-cart">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         }
 
@@ -311,8 +303,6 @@
 
 <script>
 
-    $('.carousel').carousel({
-        interval: 3000
-    });
+    $('.carousel').carousel({interval: 3000});
 
 </script>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,25 +19,55 @@ namespace NhaMeoShop.Controllers
 
         private readonly IWebHostEnvironment _environment;
 
-        public ProductsController(
-            AppDbContext context,
-            IWebHostEnvironment environment)
+        public ProductsController(AppDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
+        // =========================
+        // DANH SÁCH SẢN PHẨM
+        // =========================
+        public async Task<IActionResult> Index(string maloai, int page = 1)
         {
-            var appDbContext =
-                _context.SanPhams
-                .Include(s => s.LoaiSanPham);
+            int pageSize = 6;
 
-            return View(await appDbContext.ToListAsync());
+            var ds = _context.SanPhams.Include(x => x.LoaiSanPham).AsQueryable();
+
+            // LỌC THEO LOẠI
+            if (!string.IsNullOrEmpty(maloai))
+            {
+                ds = ds.Where(x => x.MaLoaiSP == maloai);
+
+                var loai = await _context.LoaiSanPhams.FirstOrDefaultAsync(x => x.MaLoaiSP == maloai);
+
+                if (loai != null)
+                {
+                    ViewBag.TenLoai = loai.TenLoaiSP;
+                }
+            }else
+            {
+                ViewBag.TenLoai = "Tất cả sản phẩm";
+            }
+
+            // TỔNG SẢN PHẨM
+            int totalProducts = await ds.CountAsync();
+
+            // TỔNG TRANG
+            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.MaLoai = maloai;
+
+            // PHÂN TRANG
+            var products = await ds.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return View(products);
         }
 
-        // GET: Products/Details/5
+        // =========================
+        // CHI TIẾT
+        // =========================
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -44,10 +75,7 @@ namespace NhaMeoShop.Controllers
                 return NotFound();
             }
 
-            var sanPham = await _context.SanPhams
-                .Include(s => s.LoaiSanPham)
-                .FirstOrDefaultAsync(m => m.MaSP == id);
-
+            var sanPham = await _context.SanPhams.Include(s => s.LoaiSanPham).FirstOrDefaultAsync(m => m.MaSP == id);
             if (sanPham == null)
             {
                 return NotFound();
@@ -56,66 +84,53 @@ namespace NhaMeoShop.Controllers
             return View(sanPham);
         }
 
-        // GET: Products/Create
+        // =========================
+        // CREATE
+        // =========================
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create()
         {
-            ViewData["MaLoaiSP"] =
-                new SelectList(
-                    _context.LoaiSanPhams,
-                    "MaLoaiSP",
-                    "TenLoaiSP");
-
+            ViewData["MaLoaiSP"] = new SelectList(_context.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP");
             return View();
         }
 
-        // POST: Products/Create
+        // =========================
+        // CREATE POST
+        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            SanPham sanPham,
-            IFormFile imageFile)
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> Create(SanPham sanPham, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
-                // Upload hình
+                // UPLOAD HÌNH
                 if (imageFile != null)
                 {
-                    string fileName =
-                        Path.GetFileName(imageFile.FileName);
-
-                    string path =
-                        Path.Combine(
-                            _environment.WebRootPath,
-                            "images",
-                            fileName);
-
-                    using (var stream =
-                        new FileStream(path, FileMode.Create))
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    string path = Path.Combine(_environment.WebRootPath, "images", fileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await imageFile.CopyToAsync(stream);
                     }
 
                     sanPham.HinhAnhSP = fileName;
                 }
-
                 _context.Add(sanPham);
-
                 await _context.SaveChangesAsync();
-
+                TempData["msg"] = "Thêm sản phẩm thành công";
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["MaLoaiSP"] =
-                new SelectList(
-                    _context.LoaiSanPhams,
-                    "MaLoaiSP",
-                    "TenLoaiSP",
-                    sanPham.MaLoaiSP);
+            ViewData["MaLoaiSP"] = new SelectList(_context.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP", sanPham.MaLoaiSP);
 
             return View(sanPham);
         }
 
-        // GET: Products/Edit/5
+        // =========================
+        // EDIT
+        // =========================
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -123,31 +138,23 @@ namespace NhaMeoShop.Controllers
                 return NotFound();
             }
 
-            var sanPham =
-                await _context.SanPhams.FindAsync(id);
-
+            var sanPham = await _context.SanPhams.FindAsync(id);
             if (sanPham == null)
             {
                 return NotFound();
             }
 
-            ViewData["MaLoaiSP"] =
-                new SelectList(
-                    _context.LoaiSanPhams,
-                    "MaLoaiSP",
-                    "TenLoaiSP",
-                    sanPham.MaLoaiSP);
-
+            ViewData["MaLoaiSP"] = new SelectList(_context.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP", sanPham.MaLoaiSP);
             return View(sanPham);
         }
 
-        // POST: Products/Edit/5
+        // =========================
+        // EDIT POST
+        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string id,
-            SanPham sanPham,
-            IFormFile imageFile)
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> Edit(string id, SanPham sanPham, IFormFile imageFile)
         {
             if (id != sanPham.MaSP)
             {
@@ -158,45 +165,36 @@ namespace NhaMeoShop.Controllers
             {
                 try
                 {
-                    var oldProduct =
-                        await _context.SanPhams
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(
-                            x => x.MaSP == id);
-
-                    // Upload hình mới
+                    var oldProduct = await _context.SanPhams.AsNoTracking().FirstOrDefaultAsync(x => x.MaSP == id);
+                    // UPLOAD HÌNH MỚI
                     if (imageFile != null)
                     {
-                        string fileName =
-                            Path.GetFileName(
-                                imageFile.FileName);
-
-                        string path =
-                            Path.Combine(
-                                _environment.WebRootPath,
-                                "images",
-                                fileName);
-
-                        using (var stream =
-                            new FileStream(
-                                path,
-                                FileMode.Create))
+                        // XÓA HÌNH CŨ
+                        if (!string.IsNullOrEmpty(
+                            oldProduct.HinhAnhSP))
                         {
-                            await imageFile
-                                .CopyToAsync(stream);
+                            string oldImage = Path.Combine(_environment.WebRootPath, "images", oldProduct.HinhAnhSP);
+                            if (System.IO.File.Exists(oldImage))
+                            {
+                                System.IO.File.Delete(oldImage);
+                            }
+                        }
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                        string path = Path.Combine(_environment.WebRootPath, "images", fileName);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
                         }
 
                         sanPham.HinhAnhSP = fileName;
                     }
                     else
                     {
-                        sanPham.HinhAnhSP =
-                            oldProduct.HinhAnhSP;
+                        sanPham.HinhAnhSP = oldProduct.HinhAnhSP;
                     }
-
                     _context.Update(sanPham);
-
                     await _context.SaveChangesAsync();
+                    TempData["msg"] = "Cập nhật sản phẩm thành công ✨";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -213,17 +211,14 @@ namespace NhaMeoShop.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["MaLoaiSP"] =
-                new SelectList(
-                    _context.LoaiSanPhams,
-                    "MaLoaiSP",
-                    "TenLoaiSP",
-                    sanPham.MaLoaiSP);
-
+            ViewData["MaLoaiSP"] = new SelectList(_context.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP", sanPham.MaLoaiSP);
             return View(sanPham);
         }
 
-        // GET: Products/Delete/5
+        // =========================
+        // DELETE
+        // =========================
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -231,10 +226,7 @@ namespace NhaMeoShop.Controllers
                 return NotFound();
             }
 
-            var sanPham = await _context.SanPhams
-                .Include(s => s.LoaiSanPham)
-                .FirstOrDefaultAsync(m => m.MaSP == id);
-
+            var sanPham = await _context.SanPhams.Include(s => s.LoaiSanPham).FirstOrDefaultAsync(m => m.MaSP == id);
             if (sanPham == null)
             {
                 return NotFound();
@@ -243,42 +235,39 @@ namespace NhaMeoShop.Controllers
             return View(sanPham);
         }
 
-        // POST: Products/Delete/5
+        // =========================
+        // DELETE POST
+        // =========================
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(
-            string id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult>
+            DeleteConfirmed(string id)
         {
-            var sanPham =
-                await _context.SanPhams.FindAsync(id);
+            var sanPham = await _context.SanPhams.FindAsync(id);
 
-            // Xóa hình
-            if (!string.IsNullOrEmpty(
-                sanPham.HinhAnhSP))
+            // XÓA HÌNH
+            if (!string.IsNullOrEmpty(sanPham.HinhAnhSP))
             {
-                string imagePath =
-                    Path.Combine(
-                        _environment.WebRootPath,
-                        "images",
-                        sanPham.HinhAnhSP);
+                string imagePath = Path.Combine(_environment.WebRootPath, "images", sanPham.HinhAnhSP);
 
                 if (System.IO.File.Exists(imagePath))
                 {
                     System.IO.File.Delete(imagePath);
                 }
-            }
-
-            _context.SanPhams.Remove(sanPham);
-
+            }_context.SanPhams.Remove(sanPham);
             await _context.SaveChangesAsync();
+            TempData["msg"] = "Đã xóa sản phẩm ️";
 
             return RedirectToAction(nameof(Index));
         }
 
+        // =========================
+        // CHECK
+        // =========================
         private bool SanPhamExists(string id)
         {
-            return _context.SanPhams
-                .Any(e => e.MaSP == id);
+            return _context.SanPhams.Any(e => e.MaSP == id);
         }
     }
 }

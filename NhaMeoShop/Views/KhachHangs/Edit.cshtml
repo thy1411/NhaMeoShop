@@ -1,0 +1,322 @@
+﻿@model NhaMeoShop.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Chỉnh sửa khách hàng";
+}
+
+<style>
+
+    body {
+        background: #fdf6f0;
+    }
+
+    .edit-container {
+        max-width: 850px;
+        margin: auto;
+    }
+
+    .edit-card {
+        background: white;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        font-size: 38px;
+        font-weight: bold;
+        color: #6f4e37;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #5a3f2c;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+        height: 46px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    .btn-save {
+        background: #6f4e37;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 25px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-save:hover {
+            background: #5a3f2c;
+            transform: translateY(-2px);
+        }
+
+    .btn-back {
+        background: #e9ecef;
+        color: black;
+        border-radius: 12px;
+        padding: 12px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+        .btn-back:hover {
+            background: #d6d6d6;
+            color: black;
+        }
+</style>
+
+<div class="container mt-4 edit-container">
+
+    <div class="edit-card">
+
+        <h1 class="page-title">
+            ✏️ Chỉnh sửa khách hàng
+        </h1>
+
+        <form asp-action="Edit">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <input type="hidden"
+                   asp-for="MaKH" />
+
+            <div class="row">
+
+                <!-- TÊN KH -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="TenKH"
+                           class="form-label">
+
+                        Tên khách hàng
+
+                    </label>
+
+                    <input asp-for="TenKH"
+                           class="form-control"
+                           placeholder="Nhập tên khách hàng..." />
+
+                    <span asp-validation-for="TenKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- NGÀY SINH -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgaySinhKH"
+                           class="form-label">
+
+                        Ngày sinh
+
+                    </label>
+
+                    <input asp-for="NgaySinhKH"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgaySinhKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- SĐT -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="SoDTKH"
+                           class="form-label">
+
+                        Số điện thoại
+
+                    </label>
+
+                    <input asp-for="SoDTKH"
+                           class="form-control"
+                           placeholder="Nhập số điện thoại..." />
+
+                    <span asp-validation-for="SoDTKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- NGÀY ĐK -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="NgayDKTV"
+                           class="form-label">
+
+                        Ngày đăng ký
+
+                    </label>
+
+                    <input asp-for="NgayDKTV"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="NgayDKTV"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Email"
+                           class="form-label">
+
+                        Email
+
+                    </label>
+
+                    <input asp-for="Email"
+                           class="form-control"
+                           placeholder="Nhập email..." />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Password"
+                           class="form-label">
+
+                        Mật khẩu
+
+                    </label>
+
+                    <input asp-for="Password"
+                           class="form-control"
+                           placeholder="Nhập mật khẩu..." />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- USER ID -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="UserId"
+                           class="form-label">
+
+                        User ID
+
+                    </label>
+
+                    <input asp-for="UserId"
+                           class="form-control"
+                           placeholder="Nhập User ID..." />
+
+                    <span asp-validation-for="UserId"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- LOẠI KH -->
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaLoaiKH"
+                           class="form-label">
+
+                        Loại khách hàng
+
+                    </label>
+
+                    <select asp-for="MaLoaiKH"
+                            class="form-select">
+
+                        <option value="">
+                            -- Chọn loại khách hàng --
+                        </option>
+
+                        <option value="VIP">
+                            VIP
+                        </option>
+
+                        <option value="TV">
+                            Thành viên
+                        </option>
+
+                        <option value="NEW">
+                            Khách mới
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="MaLoaiKH"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="col-12 mb-4">
+
+                    <label asp-for="GhiChuKH"
+                           class="form-label">
+
+                        Ghi chú
+
+                    </label>
+
+                    <textarea asp-for="GhiChuKH"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Nhập ghi chú nếu có..."></textarea>
+
+                    <span asp-validation-for="GhiChuKH"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="text-center">
+
+                <button type="submit"
+                        class="btn-save">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Lưu thay đổi
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn-back">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

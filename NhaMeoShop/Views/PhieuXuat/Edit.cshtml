@@ -1,44 +1,253 @@
-﻿@model NhaMeoShop.Models.PhieuXuat
+﻿@model IEnumerable<NhaMeoShop.Models.PhieuXuat>
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Danh sách phiếu xuất";
 }
 
-<h1>Edit</h1>
+<style>
 
-<h4>PhieuXuat</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SoPX" />
-            <div class="form-group">
-                <label asp-for="NgayXuat" class="control-label"></label>
-                <input asp-for="NgayXuat" class="form-control" />
-                <span asp-validation-for="NgayXuat" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="XuatHang" class="control-label"></label>
-                <input asp-for="XuatHang" class="form-control" />
-                <span asp-validation-for="XuatHang" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChuPX" class="control-label"></label>
-                <input asp-for="GhiChuPX" class="form-control" />
-                <span asp-validation-for="GhiChuPX" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    body {
+        background: #fff8f5;
+    }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: bold;
+        color: #6f4e37;
+    }
+
+    .table-container {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .btn-add {
+        background: #6f4e37;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+        .btn-add:hover {
+            background: #5c3d2e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .custom-table {
+        margin-top: 20px;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+        .custom-table thead {
+            background: #6f4e37;
+            color: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            vertical-align: middle;
+            text-align: center;
+            padding: 14px;
+        }
+
+        .custom-table tbody tr:hover {
+            background: #fff1eb;
+            transition: 0.2s;
+        }
+
+    .badge-status {
+        padding: 8px 14px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .status-done {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-pending {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .action-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        margin: 0 3px;
+        transition: 0.3s;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+    .btn-edit {
+        background: #0d6efd;
+    }
+
+    .btn-detail {
+        background: #198754;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="page-title">
+            📤 Danh sách phiếu xuất
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-add">
+
+            <i class="fa-solid fa-plus"></i>
+            Thêm phiếu xuất
+
+        </a>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="table-container">
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        <table class="table custom-table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Số PX
+                    </th>
+
+                    <th>
+                        Ngày xuất
+                    </th>
+
+                    <th>
+                        Trạng thái
+                    </th>
+
+                    <th>
+                        Ghi chú
+                    </th>
+
+                    <th width="180">
+                        Thao tác
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td class="fw-bold">
+                                @item.SoPX
+                            </td>
+
+                            <td>
+                                @item.NgayXuat.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+
+                                @if (item.XuatHang == "Đã xuất")
+                                {
+                                    <span class="badge-status status-done">
+                                        Đã xuất
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status status-pending">
+                                        @item.XuatHang
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+                                @item.GhiChuPX
+                            </td>
+
+                            <td>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.SoPX"
+                                   class="action-btn btn-edit"
+                                   title="Chỉnh sửa">
+
+                                    <i class="fa-solid fa-pen-to-square"></i>
+
+                                </a>
+
+                                <a asp-action="Details"
+                                   asp-route-id="@item.SoPX"
+                                   class="action-btn btn-detail"
+                                   title="Chi tiết">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.SoPX"
+                                   class="action-btn btn-delete"
+                                   title="Xóa">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="5"
+                            class="text-center text-danger py-4">
+
+                            Chưa có phiếu xuất nào
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

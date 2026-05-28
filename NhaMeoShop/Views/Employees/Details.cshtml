@@ -1,78 +1,306 @@
 ﻿@model NhaMeoShop.Models.NhanVien
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết nhân viên";
 }
 
-<h1>Details</h1>
+<style>
 
-<div>
-    <h4>NhanVien</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhaiNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhaiNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgaySinhNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgaySinhNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SoDTNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SoDTNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiaChiNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiaChiNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CCCD)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CCCD)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TKNganHangNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TKNganHangNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenNganHangNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenNganHangNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChuNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChuNV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaLoaiNV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaLoaiNV)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.MaNV">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    body {
+        background: #fff8f5;
+    }
+
+    .details-container {
+        max-width: 950px;
+        margin: auto;
+    }
+
+    .details-card {
+        background: white;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .top-header {
+        background: linear-gradient(90deg, #6f4e37, #8b5e3c);
+        padding: 35px;
+        text-align: center;
+        color: white;
+    }
+
+    .avatar {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: white;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .employee-name {
+        font-size: 34px;
+        font-weight: bold;
+    }
+
+    .employee-role {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 8px 18px;
+        border-radius: 30px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+
+    .details-body {
+        padding: 35px;
+    }
+
+    .info-box {
+        background: #fff8f2;
+        border-radius: 15px;
+        padding: 18px;
+        margin-bottom: 18px;
+        height: 100%;
+    }
+
+    .info-title {
+        color: #6f4e37;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 15px;
+    }
+
+    .info-value {
+        color: #444;
+        font-size: 17px;
+    }
+
+    .btn-action {
+        border-radius: 12px;
+        padding: 12px 22px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-4 details-container">
+
+    <div class="details-card">
+
+        <!-- HEADER -->
+        <div class="top-header">
+
+            <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+                 class="avatar" />
+
+            <div class="employee-name">
+
+                @Model.TenNV
+
+            </div>
+
+            <div class="employee-role">
+
+                @Model.LoaiNhanVien?.TenLoaiNV
+
+            </div>
+
+        </div>
+
+        <!-- BODY -->
+        <div class="details-body">
+
+            <div class="row">
+
+                <!-- GIỚI TÍNH -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-venus-mars"></i>
+                            Giới tính
+                        </div>
+
+                        <div class="info-value">
+
+                            @(Model.PhaiNV ? "Nam" : "Nữ")
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NGÀY SINH -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-calendar"></i>
+                            Ngày sinh
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.NgaySinhNV.ToString("dd/MM/yyyy")
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SĐT -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-phone"></i>
+                            Số điện thoại
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.SoDTNV
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CCCD -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-id-card"></i>
+                            CCCD
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.CCCD
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ĐỊA CHỈ -->
+                <div class="col-md-12">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Địa chỉ
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.DiaChiNV
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TÀI KHOẢN NH -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-credit-card"></i>
+                            Tài khoản ngân hàng
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.TKNganHangNV
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TÊN NGÂN HÀNG -->
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-building-columns"></i>
+                            Tên ngân hàng
+                        </div>
+
+                        <div class="info-value">
+
+                            @Model.TenNganHangNV
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="col-md-12">
+
+                    <div class="info-box">
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-note-sticky"></i>
+                            Ghi chú
+                        </div>
+
+                        <div class="info-value">
+
+                            @(string.IsNullOrEmpty(Model.GhiChuNV)
+                                ? "Không có ghi chú"
+                                : Model.GhiChuNV)
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="d-flex justify-content-between mt-4">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary btn-action">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+
+                </a>
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model.MaNV"
+                   class="btn btn-warning btn-action">
+
+                    <i class="fa-solid fa-pen"></i>
+                    Chỉnh sửa
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

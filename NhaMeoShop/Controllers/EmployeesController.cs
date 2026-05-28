@@ -19,9 +19,20 @@ namespace NhaMeoShop.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string loai)
         {
-            return View(await _context.NhanViens.ToListAsync());
+            var dsNhanVien = _context.NhanViens.AsQueryable();
+
+            // LỌC LOẠI NHÂN VIÊN
+            if (!string.IsNullOrEmpty(loai))
+            {
+                dsNhanVien = dsNhanVien
+                    .Where(x => x.MaLoaiNV == loai);
+            }
+
+            ViewBag.LoaiDangChon = loai;
+
+            return View(await dsNhanVien.ToListAsync());
         }
 
         // GET: Employees/Details/5
@@ -34,6 +45,7 @@ namespace NhaMeoShop.Controllers
 
             var nhanVien = await _context.NhanViens
                 .FirstOrDefaultAsync(m => m.MaNV == id);
+
             if (nhanVien == null)
             {
                 return NotFound();
@@ -45,15 +57,16 @@ namespace NhaMeoShop.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
+            LoadLoaiNhanVien();
             return View();
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")] NhanVien nhanVien)
+        public async Task<IActionResult> Create(
+            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")]
+            NhanVien nhanVien)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +74,8 @@ namespace NhaMeoShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            LoadLoaiNhanVien();
             return View(nhanVien);
         }
 
@@ -73,19 +88,24 @@ namespace NhaMeoShop.Controllers
             }
 
             var nhanVien = await _context.NhanViens.FindAsync(id);
+
             if (nhanVien == null)
             {
                 return NotFound();
             }
+
+            LoadLoaiNhanVien();
+
             return View(nhanVien);
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")] NhanVien nhanVien)
+        public async Task<IActionResult> Edit(
+            string id,
+            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")]
+            NhanVien nhanVien)
         {
             if (id != nhanVien.MaNV)
             {
@@ -110,8 +130,12 @@ namespace NhaMeoShop.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
+            LoadLoaiNhanVien();
+
             return View(nhanVien);
         }
 
@@ -125,6 +149,7 @@ namespace NhaMeoShop.Controllers
 
             var nhanVien = await _context.NhanViens
                 .FirstOrDefaultAsync(m => m.MaNV == id);
+
             if (nhanVien == null)
             {
                 return NotFound();
@@ -139,14 +164,48 @@ namespace NhaMeoShop.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var nhanVien = await _context.NhanViens.FindAsync(id);
+
             _context.NhanViens.Remove(nhanVien);
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool NhanVienExists(string id)
         {
             return _context.NhanViens.Any(e => e.MaNV == id);
+        }
+
+        // LOAD DROPDOWN LOẠI NHÂN VIÊN
+        private void LoadLoaiNhanVien()
+        {
+            ViewBag.LoaiNhanVien = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "PV",
+                    Text = "Phục vụ"
+                },
+
+                new SelectListItem
+                {
+                    Value = "TN",
+                    Text = "Thu ngân"
+                },
+
+                new SelectListItem
+                {
+                    Value = "PC",
+                    Text = "Pha chế"
+                },
+
+                new SelectListItem
+                {
+                    Value = "QL",
+                    Text = "Quản lí"
+                }
+            };
         }
     }
 }

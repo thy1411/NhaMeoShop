@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NhaMeoShop.Models;
+using System.Threading.Tasks;
 
 namespace NhaMeoShop
 {
@@ -21,27 +17,58 @@ namespace NhaMeoShop
             {
                 var services = scope.ServiceProvider;
 
-                var roleManager =
-                    services.GetRequiredService
-                    <RoleManager<IdentityRole>>();
+                // DATABASE
+                var context = services.GetRequiredService<AppDbContext>();
 
-                string[] roles =
-                {
+                context.Database.EnsureCreated();
+
+                // SEED DATA
+                DataSeeder.Seed(context);
+
+                // ROLE MANAGER
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                // USER MANAGER
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+                // CREATE ROLES
+                string[] roles = {
                     "Admin",
-                    "Staff"
+                    "Staff",
+                    "Customer"
                 };
 
                 foreach (var role in roles)
                 {
-                    bool exists =
-                        await roleManager
-                        .RoleExistsAsync(role);
+                    bool exists = await roleManager.RoleExistsAsync(role);
 
                     if (!exists)
                     {
-                        await roleManager
-                            .CreateAsync(
-                                new IdentityRole(role));
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+
+                // CREATE ADMIN ACCOUNT
+                string adminEmail = "admin@nhameo.com";
+
+                string adminPassword = "Admin@123";
+
+                var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+                if (adminUser == null)
+                {
+                    var user = new IdentityUser
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        EmailConfirmed = true
+                    };
+
+                    var result = await userManager.CreateAsync(user, adminPassword);
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, "Admin");
                     }
                 }
             }
@@ -50,6 +77,11 @@ namespace NhaMeoShop
         }
 
         public static IHostBuilder CreateHostBuilder(
-            string[] args) => Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+            string[] args) =>
+
+            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }

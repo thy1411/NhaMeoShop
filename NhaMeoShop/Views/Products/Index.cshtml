@@ -1,59 +1,251 @@
 ﻿@model IEnumerable<NhaMeoShop.Models.SanPham>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sản phẩm";
 }
 
-<h1>Index</h1>
+<style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenSP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DonGiaSP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HinhAnhSP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GhiChuSP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiSanPham)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenSP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonGiaSP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HinhAnhSP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChuSP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoaiSanPham.MaLoaiSP)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaSP">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaSP">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaSP">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    body {
+        background: #fff8f5;
+    }
+
+    .page-title {
+        font-size: 35px;
+        font-weight: bold;
+        color: #6f4e37;
+    }
+
+    .left-menu .list-group-item {
+        border: none;
+        padding: 14px 18px;
+        font-size: 17px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+        .left-menu .list-group-item:hover {
+            background: #ffe5d9;
+            padding-left: 25px;
+            color: #d35400;
+        }
+
+    .product-card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: 0.3s;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        background: white;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .product-img {
+        width: 100%;
+        height: 250px;
+        object-fit: contain;
+        background: white;
+        padding: 10px;
+    }
+
+    .product-name {
+        font-size: 22px;
+        font-weight: bold;
+        color: #5c3d2e;
+    }
+
+    .product-price {
+        color: #dc3545;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .btn-add {
+        background: #6f4e37;
+        color: white;
+        border-radius: 12px;
+        padding: 8px 15px;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .btn-add:hover {
+            background: #5a3f2c;
+            color: white;
+        }
+
+    .btn-action {
+        border-radius: 10px;
+        margin: 2px;
+    }
+
+    .category-card {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+
+    <div class="row">
+
+        <!-- MENU TRÁI -->
+        <div class="col-md-3">
+            <div class="card shadow border-0 category-card">
+                <div class="card-header bg-danger text-white fw-bold fs-5">
+                    Danh mục sản phẩm
+                </div>
+
+                <div class="list-group list-group-flush left-menu">
+                    <a asp-controller="Products" asp-action="Index" class="list-group-item list-group-item-action">
+                        Tất cả sản phẩm
+                        </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="CF" class="list-group-item list-group-item-action"> Cà phê </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TS" class="list-group-item list-group-item-action"> Trà sữa </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="NE" class="list-group-item list-group-item-action"> Nước ép </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="ST" class="list-group-item list-group-item-action"> Sinh tố </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TC" class="list-group-item list-group-item-action"> Trà trái cây </a>
+
+                    <a asp-controller="Products" asp-action="Index" asp-route-maloai="TP" class="list-group-item list-group-item-action"> Topping </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SẢN PHẨM -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="page-title">@ViewBag.TenLoai</h2>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                {
+                    <a asp-action="Create" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm sản phẩm </a>
+                }
+
+            </div>
+
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 mb-4">
+
+                        <div class="card product-card h-100">
+
+                            <!-- HÌNH -->
+                            <img src="~/images/@item.HinhAnhSP" class="product-img" />
+
+                            <!-- BODY -->
+                            <div class="card-body text-center">
+
+                                <div class="product-name mb-2"> @item.TenSP </div>
+
+                                <div class="product-price mb-3"> @item.DonGiaSP.ToString("N0") đ </div>
+
+                                <div class="text-muted mb-3"> @item.GhiChuSP </div>
+
+                                <!-- CUSTOMER -->
+                                @if (User.IsInRole("Customer"))
+                                {
+                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaSP" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString" class="btn btn-add">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                }
+
+                                <!-- ADMIN -->
+                                @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                                {
+                                    <div>
+
+                                        <a asp-action="Edit" asp-route-id="@item.MaSP" class="btn btn-warning btn-action">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+
+                                        <a asp-action="Details" asp-route-id="@item.MaSP" class="btn btn-info btn-action text-white">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                        <a asp-action="Delete" asp-route-id="@item.MaSP" class="btn btn-danger btn-action">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+            <!-- PHÂN TRANG -->
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="d-flex justify-content-center mt-4">
+
+                    <nav>
+
+                        <ul class="pagination">
+
+                            <!-- PREV -->
+                            @if (ViewBag.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-maloai="@ViewBag.MaLoai">
+                                        ←
+                                    </a>
+
+                                </li>
+                            }
+
+                            <!-- NUMBER -->
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+
+                                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-maloai="@ViewBag.MaLoai">
+                                        @i
+                                    </a>
+
+                                </li>
+                            }
+
+                            <!-- NEXT -->
+                            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                            {
+                                <li class="page-item">
+
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-maloai="@ViewBag.MaLoai">
+                                        →
+                                    </a>
+
+                                </li>
+                            }
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

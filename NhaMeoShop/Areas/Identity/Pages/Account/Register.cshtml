@@ -1,67 +1,281 @@
 ﻿@page
 @model RegisterModel
+@using NhaMeoShop.Models;
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Đăng ký";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+    body {
+        background: #fff8f0;
+    }
+
+    .register-container {
+        min-height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .register-box {
+        width: 100%;
+        max-width: 650px;
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .logo-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #5c3d2e;
+    }
+
+    .sub-title {
+        text-align: center;
+        color: gray;
+        margin-bottom: 25px;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+        height: 45px;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    .btn-register {
+        width: 100%;
+        height: 48px;
+        border: none;
+        border-radius: 12px;
+        background: #6f4e37;
+        color: white;
+        font-weight: bold;
+        font-size: 17px;
+        transition: 0.3s;
+    }
+
+        .btn-register:hover {
+            background: #5a3f2c;
+        }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .login-link a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #6f4e37;
+        }
+
+    .cat-icon {
+        font-size: 60px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+</style>
+
+<div class="register-container">
+
+    <div class="register-box">
+        <div class="logo-title">
+            Nhà Mèo Shop
+        </div>
+
+        <div class="sub-title">
+            Tạo tài khoản thành viên mới
+        </div>
+
+        <form asp-route-returnUrl="@Model.ReturnUrl"
+              method="post">
+
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3"></div>
+
+            <!-- TÊN KHÁCH HÀNG -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.TenKH">
+                    Tên khách hàng
+                </label>
+
+                <input asp-for="Input.TenKH"
+                       class="form-control"
+                       placeholder="Nhập tên khách hàng..." />
+
+                <span asp-validation-for="Input.TenKH"
+                      class="text-danger"></span>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <!-- NGÀY SINH -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.NgaySinhKH">
+                    Ngày sinh
+                </label>
+
+                <input asp-for="Input.NgaySinhKH"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="Input.NgaySinhKH"
+                      class="text-danger"></span>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <!-- SỐ ĐIỆN THOẠI -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.SoDTKH">
+                    Số điện thoại
+                </label>
+
+                <input asp-for="Input.SoDTKH"
+                       class="form-control"
+                       placeholder="Nhập số điện thoại..." />
+
+                <span asp-validation-for="Input.SoDTKH"
+                      class="text-danger"></span>
+
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+
+            <!-- GHI CHÚ -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.GhiChuKH">
+                    Ghi chú
+                </label>
+
+                <textarea asp-for="Input.GhiChuKH"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Nhập ghi chú nếu có..."></textarea>
+
+                <span asp-validation-for="Input.GhiChuKH"
+                      class="text-danger"></span>
+
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.Email">
+                    Email
+                </label>
+
+                <input asp-for="Input.Email"
+                       class="form-control"
+                       placeholder="Nhập email..." />
+
+                <span asp-validation-for="Input.Email"
+                      class="text-danger"></span>
+
+            </div>
+
+            <!-- ROLE -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.Role">
+                    Loại tài khoản
+                </label>
+
+                <select asp-for="Input.Role"
+                        class="form-select">
+
+                    <option value="">
+                        -- Chọn loại tài khoản --
+                    </option>
+
+                    <option value="Customer">
+                        Khách hàng
+                    </option>
+
+                    <option value="Staff">
+                        Nhân viên
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="Input.Role"
+                      class="text-danger"></span>
+
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group mb-3">
+
+                <label asp-for="Input.Password">
+                    Mật khẩu
+                </label>
+
+                <input asp-for="Input.Password"
+                       class="form-control"
+                       placeholder="Nhập mật khẩu..." />
+
+                <span asp-validation-for="Input.Password"
+                      class="text-danger"></span>
+
+            </div>
+
+            <!-- NHẬP LẠI PASSWORD -->
+            <div class="form-group mb-4">
+
+                <label asp-for="Input.ConfirmPassword">
+                    Xác nhận mật khẩu
+                </label>
+
+                <input asp-for="Input.ConfirmPassword"
+                       class="form-control"
+                       placeholder="Nhập lại mật khẩu..." />
+
+                <span asp-validation-for="Input.ConfirmPassword"
+                      class="text-danger"></span>
+
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                    class="btn-register">
+
+                Đăng ký
+
+            </button>
+
+            <!-- LOGIN -->
+            <div class="login-link">
+
+                Đã có tài khoản?
+
+                <a asp-page="./Login">
+                    Đăng nhập
+                </a>
+
+            </div>
+
         </form>
+
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+
 </div>
 
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using NhaMeoShop.Models;
 
 namespace NhaMeoShop.Models
 {
@@ -19,6 +18,18 @@ namespace NhaMeoShop.Models
         public string SoDTKH { get; set; }
 
         public DateTime NgayDKTV { get; set; }
+
+        // EMAIL LOGIN
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        // PASSWORD LOGIN
+        [Required]
+        public string Password { get; set; }
+
+        // LINK VỚI ASPNETUSERS
+        public string UserId { get; set; }
 
         public string GhiChuKH { get; set; }
 
