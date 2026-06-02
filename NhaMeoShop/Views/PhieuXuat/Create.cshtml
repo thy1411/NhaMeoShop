@@ -36,17 +36,18 @@
         border: 1px solid #d6c3b8;
     }
 
-        .form-control:focus,
-        textarea:focus {
-            border-color: #6f4e37;
-            box-shadow: 0 0 5px rgba(111,78,55,0.3);
-        }
+    select.form-control {
+        height: 35px !important;
+        font-size: 16px;
+        padding: 0;
+        padding-right: 22px;
+    }
 
     .btn-custom {
         border-radius: 10px;
         padding: 10px 22px;
         font-weight: 500;
-        transition: 0.3s;
+        transition: .3s;
     }
 
     .btn-save {
@@ -55,24 +56,15 @@
         border: none;
     }
 
-        .btn-save:hover {
-            background: #5c3d2e;
-            color: white;
-            transform: translateY(-2px);
-        }
-
     .btn-back {
         background: #ddd;
         color: black;
         border: none;
     }
 
-        .btn-back:hover {
-            background: #bbb;
-        }
-
-    .text-danger {
-        font-size: 14px;
+    .table thead {
+        background: #6f4e37;
+        color: white;
     }
 </style>
 
@@ -92,22 +84,17 @@
 
             <div class="row">
 
-                <!-- SỐ PHIẾU XUẤT -->
+                <!-- SỐ PHIẾU -->
                 <div class="col-md-6 mb-3">
 
-                    <label asp-for="SoPX"
-                           class="form-label">
-
+                    <label class="form-label">
                         Số phiếu xuất
-
                     </label>
 
                     <input asp-for="SoPX"
                            class="form-control"
-                           placeholder="Nhập số phiếu xuất..." />
-
-                    <span asp-validation-for="SoPX"
-                          class="text-danger"></span>
+                           value="@ViewBag.SoPX"
+                           readonly />
 
                 </div>
 
@@ -116,21 +103,16 @@
 
                     <label asp-for="NgayXuat"
                            class="form-label">
-
                         Ngày xuất
-
                     </label>
 
                     <input asp-for="NgayXuat"
                            type="date"
                            class="form-control" />
 
-                    <span asp-validation-for="NgayXuat"
-                          class="text-danger"></span>
-
                 </div>
 
-                <!-- NHÂN VIÊN XUẤT HÀNG -->
+                <!-- NHÂN VIÊN -->
                 <div class="col-md-6 mb-3">
 
                     <label asp-for="XuatHang"
@@ -140,9 +122,21 @@
 
                     </label>
 
-                    <input asp-for="XuatHang"
-                           class="form-control"
-                           placeholder="Nhập tên nhân viên xuất hàng..." />
+                    <select asp-for="XuatHang"
+                            class="form-control">
+
+                        <option value="">
+                            -- Chọn nhân viên --
+                        </option>
+
+                        @foreach (var nv in ViewBag.NhanVienQK)
+                        {
+                            <option value="@($"{nv.MaNV} - {nv.TenNV}")">
+                                @nv.MaNV - @nv.TenNV
+                            </option>
+                        }
+
+                    </select>
 
                     <span asp-validation-for="XuatHang"
                           class="text-danger"></span>
@@ -154,22 +148,97 @@
 
                     <label asp-for="GhiChuPX"
                            class="form-label">
-
                         Ghi chú
-
                     </label>
 
                     <textarea asp-for="GhiChuPX"
-                              rows="4"
-                              class="form-control"
-                              placeholder="Nhập ghi chú nếu có..."></textarea>
-
-                    <span asp-validation-for="GhiChuPX"
-                          class="text-danger"></span>
+                              rows="3"
+                              class="form-control"></textarea>
 
                 </div>
 
             </div>
+
+            <hr />
+
+            <h5>
+                Danh sách nguyên liệu xuất
+            </h5>
+
+            <table class="table table-bordered"
+                   id="tblChiTiet">
+
+                <thead>
+                    <tr>
+                        <th>Mã nguyên liệu</th>
+                        <th>Còn trong kho</th>
+                        <th>Số lượng xuất</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <select name="MaNL[]"
+                                    class="form-control nl-select">
+
+                                @foreach (var nl in ViewBag.NL)
+                                {
+                                    <option value="@nl.MaNL"
+                                            data-ton="@nl.SoLuongTon">
+
+                                        @nl.MaNL - @nl.TenNL
+
+                                    </option>
+                                }
+
+                            </select>
+                        </td>
+
+                        <td>
+
+                            <input type="text"
+                                   class="form-control tonkho"
+                                   readonly />
+
+                        </td>
+
+                        <td>
+
+                            <input name="SoLuong[]"
+                                   type="number"
+                                   min="1"
+                                   class="form-control"
+                                   required />
+
+                        </td>
+
+                        <td>
+
+                            <button type="button"
+                                    class="form-control btn-danger btn-remove">
+
+                                X
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <button type="button"
+                    id="addRow"
+                    class="btn btn-success">
+
+                + Thêm dòng
+
+            </button>
 
             <div class="mt-4">
 
@@ -196,6 +265,61 @@
     </div>
 
 </div>
+
+<script>
+
+    function updateRow(row) {
+        let select = row.querySelector('.nl-select');
+
+        let ton = row.querySelector('.tonkho');
+
+        let opt = select.options[select.selectedIndex];
+
+        ton.value = opt.getAttribute('data-ton');
+    }
+
+    document.querySelectorAll("#tblChiTiet tbody tr")
+        .forEach(updateRow);
+
+    document.addEventListener("change", function (e) {
+        if (e.target.classList.contains("nl-select")) {
+            updateRow(e.target.closest("tr"));
+        }
+    });
+
+    document.getElementById("addRow").onclick = function () {
+        let row =
+            document.querySelector("#tblChiTiet tbody tr");
+
+        let clone =
+            row.cloneNode(true);
+
+        clone.querySelectorAll("input").forEach(x => {
+            if (!x.classList.contains("tennl") &&
+                !x.classList.contains("tonkho")) {
+                x.value = "";
+            }
+        });
+
+        document
+            .querySelector("#tblChiTiet tbody")
+            .appendChild(clone);
+
+        updateRow(clone);
+    };
+
+    document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("btn-remove")) {
+            let rows =
+                document.querySelectorAll("#tblChiTiet tbody tr");
+
+            if (rows.length > 1) {
+                e.target.closest("tr").remove();
+            }
+        }
+    });
+
+</script>
 
 @section Scripts {
 

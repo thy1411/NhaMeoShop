@@ -16,6 +16,8 @@ namespace NhaMeoShop.Models
 
         public double GiamGia { get; set; }
 
+        public int SoLuongTon { get; set; }
+
         public string GhiChuLoaiKH { get; set; }
 
         public ICollection<KhachHang> KhachHangs { get; set; }

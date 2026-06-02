@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,14 @@ namespace NhaMeoShop.Controllers
     public class EmployeesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EmployeesController(AppDbContext context)
+        public EmployeesController(
+            AppDbContext context,
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Employees
@@ -23,7 +28,6 @@ namespace NhaMeoShop.Controllers
         {
             var dsNhanVien = _context.NhanViens.AsQueryable();
 
-            // LỌC LOẠI NHÂN VIÊN
             if (!string.IsNullOrEmpty(loai))
             {
                 dsNhanVien = dsNhanVien
@@ -44,6 +48,7 @@ namespace NhaMeoShop.Controllers
             }
 
             var nhanVien = await _context.NhanViens
+                .Include(x => x.LoaiNhanVien)
                 .FirstOrDefaultAsync(m => m.MaNV == id);
 
             if (nhanVien == null)
@@ -65,13 +70,62 @@ namespace NhaMeoShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")]
+            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV,UserNameNV,PasswordNV,KichHoatTK")]
             NhanVien nhanVien)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(nhanVien);
+                // Kiểm tra username tồn tại
+                var checkUser =
+                    await _userManager.FindByNameAsync(
+                        nhanVien.UserNameNV);
+
+                if (checkUser != null)
+                {
+                    ModelState.AddModelError(
+                        "",
+                        "Tên đăng nhập đã tồn tại."
+                    );
+
+                    LoadLoaiNhanVien();
+                    return View(nhanVien);
+                }
+
+                var user = new IdentityUser
+                {
+                    UserName = nhanVien.UserNameNV,
+                    Email = nhanVien.UserNameNV + "@nhameoshop.local",
+                    EmailConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(
+                    user,
+                    nhanVien.PasswordNV
+                );
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(
+                            "",
+                            error.Description
+                        );
+                    }
+
+                    LoadLoaiNhanVien();
+                    return View(nhanVien);
+                }
+
+                await _userManager.AddToRoleAsync(
+                    user,
+                    "Staff"
+                );
+
+                _context.NhanViens.Add(nhanVien);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -87,7 +141,8 @@ namespace NhaMeoShop.Controllers
                 return NotFound();
             }
 
-            var nhanVien = await _context.NhanViens.FindAsync(id);
+            var nhanVien =
+                await _context.NhanViens.FindAsync(id);
 
             if (nhanVien == null)
             {
@@ -104,7 +159,7 @@ namespace NhaMeoShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
             string id,
-            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV")]
+            [Bind("MaNV,TenNV,PhaiNV,NgaySinhNV,SoDTNV,DiaChiNV,CCCD,TKNganHangNV,TenNganHangNV,GhiChuNV,MaLoaiNV,UserNameNV,PasswordNV,KichHoatTK")]
             NhanVien nhanVien)
         {
             if (id != nhanVien.MaNV)
@@ -117,6 +172,7 @@ namespace NhaMeoShop.Controllers
                 try
                 {
                     _context.Update(nhanVien);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,10 +181,8 @@ namespace NhaMeoShop.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -161,51 +215,71 @@ namespace NhaMeoShop.Controllers
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(
+            string id)
         {
-            var nhanVien = await _context.NhanViens.FindAsync(id);
+            var nhanVien =
+                await _context.NhanViens.FindAsync(id);
 
-            _context.NhanViens.Remove(nhanVien);
+            if (nhanVien != null)
+            {
+                var user =
+                    await _userManager.FindByNameAsync(
+                        nhanVien.UserNameNV);
 
-            await _context.SaveChangesAsync();
+                if (user != null)
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+
+                _context.NhanViens.Remove(nhanVien);
+
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
         private bool NhanVienExists(string id)
         {
-            return _context.NhanViens.Any(e => e.MaNV == id);
+            return _context.NhanViens.Any(
+                e => e.MaNV == id);
         }
 
-        // LOAD DROPDOWN LOẠI NHÂN VIÊN
         private void LoadLoaiNhanVien()
         {
-            ViewBag.LoaiNhanVien = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Value = "PV",
-                    Text = "Phục vụ"
-                },
+            ViewBag.MaLoaiNV = new List<SelectListItem>
+    {
+        new SelectListItem
+        {
+            Value = "PV",
+            Text = "Phục vụ"
+        },
 
-                new SelectListItem
-                {
-                    Value = "TN",
-                    Text = "Thu ngân"
-                },
+        new SelectListItem
+        {
+            Value = "TN",
+            Text = "Thu ngân"
+        },
 
-                new SelectListItem
-                {
-                    Value = "PC",
-                    Text = "Pha chế"
-                },
+        new SelectListItem
+        {
+            Value = "PC",
+            Text = "Pha chế"
+        },
 
-                new SelectListItem
-                {
-                    Value = "QL",
-                    Text = "Quản lí"
-                }
-            };
+        new SelectListItem
+        {
+            Value = "QK",
+            Text = "Quản kho"
+        },
+
+        new SelectListItem
+        {
+            Value = "CS",
+            Text = "Chăm sóc"
+        }
+    };
         }
     }
 }

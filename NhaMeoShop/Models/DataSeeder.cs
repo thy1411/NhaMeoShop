@@ -71,7 +71,17 @@ namespace NhaMeoShop.Models
                     new SanPham { MaSP = "TC007", TenSP = "Trà vải hoa hồng", DonGiaSP = 25000, HinhAnhSP = "TC007.png", MaLoaiSP = "TC" },
 
                     new SanPham { MaSP = "TP001", TenSP = "Trân châu đen", DonGiaSP = 5000, HinhAnhSP = "TP001.png", MaLoaiSP = "TP" },
-                    new SanPham { MaSP = "TP002", TenSP = "Trân châu trắng", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" }
+                    new SanPham { MaSP = "TP002", TenSP = "Trân châu trắng", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP003", TenSP = "Thạch cá", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP004", TenSP = "Thạch trái cây", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP005", TenSP = "Thạch táo", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP006", TenSP = "Rau Câu", DonGiaSP = 5000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP007", TenSP = "Khúc bạch", DonGiaSP = 7000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP008", TenSP = "Pudding trứng", DonGiaSP = 7000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP009", TenSP = "Pudding socola", DonGiaSP = 7000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP010", TenSP = "Pudding phô mai tươi", DonGiaSP = 7000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP011", TenSP = "Đào miếng", DonGiaSP = 8000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" },
+                    new SanPham { MaSP = "TP012", TenSP = "Kem cheese", DonGiaSP = 10000, HinhAnhSP = "TP002.png", MaLoaiSP = "TP" }
 
                 );
 
@@ -145,13 +155,110 @@ namespace NhaMeoShop.Models
                         TKNganHangNV = "17047128",
                         TenNganHangNV = "Techcombank",
                         MaLoaiNV = "PC"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "PC0002",
+                        TenNV = "Phan D",
+                        PhaiNV = false,
+                        NgaySinhNV = new DateTime(2005, 11, 17),
+                        SoDTNV = "0997381929",
+                        DiaChiNV = "Quận 7",
+                        CCCD = "92640116",
+                        TKNganHangNV = "17047129",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "PC"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "QK0001",
+                        TenNV = "Hà E",
+                        PhaiNV = false,
+                        NgaySinhNV = new DateTime(2005, 11, 18),
+                        SoDTNV = "0997381930",
+                        DiaChiNV = "Quận 8",
+                        CCCD = "92640117",
+                        TKNganHangNV = "17047130",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "QK"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "QK0002",
+                        TenNV = "Ngô F",
+                        PhaiNV = true,
+                        NgaySinhNV = new DateTime(2005, 11, 19),
+                        SoDTNV = "0997381931",
+                        DiaChiNV = "Quận 9",
+                        CCCD = "92640118",
+                        TKNganHangNV = "17047131",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "QK"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "TN0001",
+                        TenNV = "Trịnh I",
+                        PhaiNV = false,
+                        NgaySinhNV = new DateTime(2005, 11, 20),
+                        SoDTNV = "0997381932",
+                        DiaChiNV = "Quận 10",
+                        CCCD = "92640119",
+                        TKNganHangNV = "17047132",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "TN"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "TN0002",
+                        TenNV = "Đại J",
+                        PhaiNV = true,
+                        NgaySinhNV = new DateTime(2005, 11, 21),
+                        SoDTNV = "0997381933",
+                        DiaChiNV = "Quận 11",
+                        CCCD = "92640120",
+                        TKNganHangNV = "17047133",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "TN"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "CS0001",
+                        TenNV = "Hồng K",
+                        PhaiNV = true,
+                        NgaySinhNV = new DateTime(2005, 11, 22),
+                        SoDTNV = "0997381934",
+                        DiaChiNV = "Quận 12",
+                        CCCD = "92640121",
+                        TKNganHangNV = "17047134",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "CS"
+                    },
+
+                    new NhanVien
+                    {
+                        MaNV = "CS0002",
+                        TenNV = "Quế L",
+                        PhaiNV = false,
+                        NgaySinhNV = new DateTime(2005, 11, 23),
+                        SoDTNV = "0997381935",
+                        DiaChiNV = "Quận 13",
+                        CCCD = "92640122",
+                        TKNganHangNV = "17047135",
+                        TenNganHangNV = "Techcombank",
+                        MaLoaiNV = "CS"
                     }
 
                 );
 
                 context.SaveChanges();
             }
-
             // =========================
             // LOẠI KHÁCH HÀNG
             // =========================
@@ -242,6 +349,68 @@ namespace NhaMeoShop.Models
                         GhiChuNCC = "",
                         MaLoaiNCC = "BB"
                     }
+
+                );
+
+                context.SaveChanges();
+            }
+            // =========================
+            // KHO TỔNG
+            // =========================
+
+            if (!context.KhoTongs.Any())
+            {
+                context.KhoTongs.AddRange(
+
+                    // CÀ PHÊ
+                    new KhoTong { MaNL = "CP01", TenNL = "Bột cà phê", DonViNhapNL = "Bịch 1kg", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 150000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CP02", TenNL = "Sữa đặc", DonViNhapNL = "Thùng (48 lon)", DonViSuDungNL = "Lon", TiLeQuyDoi = 48, DonGiaNhap = 1100000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CP03", TenNL = "Sữa tươi", DonViNhapNL = "Thùng (48 hộp)", DonViSuDungNL = "Hộp", TiLeQuyDoi = 48, DonGiaNhap = 1300000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CP04", TenNL = "Kem béo", DonViNhapNL = "Thùng (12 hộp)", DonViSuDungNL = "Hộp", TiLeQuyDoi = 12, DonGiaNhap = 900000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CP05", TenNL = "Whipping cream", DonViNhapNL = "Thùng (12 hộp)", DonViSuDungNL = "Hộp", TiLeQuyDoi = 12, DonGiaNhap = 1200000, SoLuongTon = 10, GhiChuNL = "" },
+
+                    // TRÀ SỮA
+                    new KhoTong { MaNL = "TS01", TenNL = "Trà đen", DonViNhapNL = "Bịch 500g", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 90000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS02", TenNL = "Trà ô long", DonViNhapNL = "Bịch 500g", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 110000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS03", TenNL = "Trà xanh", DonViNhapNL = "Bịch 500g", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 100000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS04", TenNL = "Bột matcha", DonViNhapNL = "Bịch 500g", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 180000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS05", TenNL = "Bột sữa", DonViNhapNL = "Bao 25kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 25, DonGiaNhap = 1800000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS06", TenNL = "Bột béo", DonViNhapNL = "Bao 25kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 25, DonGiaNhap = 1600000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS07", TenNL = "Trứng", DonViNhapNL = "Khay (30 quả)", DonViSuDungNL = "Quả", TiLeQuyDoi = 30, DonGiaNhap = 75000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TS08", TenNL = "Cream cheese", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 950000, SoLuongTon = 10, GhiChuNL = "" },
+
+                    // NƯỚC ÉP
+                    new KhoTong { MaNL = "NE01", TenNL = "Táo", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 350000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "NE02", TenNL = "Thơm", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 180000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "NE03", TenNL = "Cam", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 300000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "NE04", TenNL = "Dưa hấu", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 150000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "NE05", TenNL = "Nho", DonViNhapNL = "Thùng 5kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 5, DonGiaNhap = 280000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "NE06", TenNL = "Ổi", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 200000, SoLuongTon = 10, GhiChuNL = "" },
+
+                    // SINH TỐ
+                    new KhoTong { MaNL = "ST01", TenNL = "Bơ", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 600000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "ST02", TenNL = "Sầu riêng", DonViNhapNL = "Thùng 5kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 5, DonGiaNhap = 500000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "ST03", TenNL = "Dâu", DonViNhapNL = "Thùng 5kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 5, DonGiaNhap = 450000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "ST04", TenNL = "Dừa", DonViNhapNL = "Thùng 20 trái", DonViSuDungNL = "Trái", TiLeQuyDoi = 20, DonGiaNhap = 200000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "ST05", TenNL = "Sapoche", DonViNhapNL = "Thùng 10kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 10, DonGiaNhap = 250000, SoLuongTon = 10, GhiChuNL = "" },
+
+                    // TRÀ CÂY
+                    new KhoTong { MaNL = "TC01", TenNL = "Trà lài", DonViNhapNL = "Bịch 500g", DonViSuDungNL = "Bịch", TiLeQuyDoi = 1, DonGiaNhap = 95000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC02", TenNL = "Cherry", DonViNhapNL = "Hộp 1kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 1, DonGiaNhap = 150000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC03", TenNL = "Đào ngâm", DonViNhapNL = "Thùng 12 lon", DonViSuDungNL = "Lon", TiLeQuyDoi = 12, DonGiaNhap = 550000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC04", TenNL = "Dưa lưới", DonViNhapNL = "Kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 1, DonGiaNhap = 40000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC05", TenNL = "Vải ngâm", DonViNhapNL = "Kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 1, DonGiaNhap = 400000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC06", TenNL = "Tắc", DonViNhapNL = "Bịch 5kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 5, DonGiaNhap = 25000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC07", TenNL = "Sả", DonViNhapNL = "Kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 1, DonGiaNhap = 20000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC08", TenNL = "Xí muội", DonViNhapNL = "Kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 1, DonGiaNhap = 80000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC09", TenNL = "Syrup trái cây", DonViNhapNL = "Chai 1L", DonViSuDungNL = "Chai", TiLeQuyDoi = 1, DonGiaNhap = 120000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "TC10", TenNL = "Mật ong", DonViNhapNL = "Chai 1L", DonViSuDungNL = "Chai", TiLeQuyDoi = 1, DonGiaNhap = 180000, SoLuongTon = 10, GhiChuNL = "" },
+
+                    // CHUNG
+                    new KhoTong { MaNL = "CB01", TenNL = "Đường", DonViNhapNL = "Bao 50kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 50, DonGiaNhap = 900000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CB02", TenNL = "Syrup", DonViNhapNL = "Chai 1L", DonViSuDungNL = "Chai", TiLeQuyDoi = 1, DonGiaNhap = 100000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CB03", TenNL = "Muối", DonViNhapNL = "Bao 25kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 25, DonGiaNhap = 200000, SoLuongTon = 10, GhiChuNL = "" },
+                    new KhoTong { MaNL = "CB04", TenNL = "Đá viên", DonViNhapNL = "Bao 20kg", DonViSuDungNL = "Kg", TiLeQuyDoi = 20, DonGiaNhap = 40000, SoLuongTon = 10, GhiChuNL = "" }
 
                 );
 

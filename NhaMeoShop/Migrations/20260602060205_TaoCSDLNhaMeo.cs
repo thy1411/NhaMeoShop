@@ -47,21 +47,7 @@ namespace NhaMeoShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "KhoPhaChe",
-                columns: table => new
-                {
-                    MaKhoPC = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SLTonQuy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GhiChuKhoPC = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KhoPhaChe", x => x.MaKhoPC);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "KhoTong",
+                name: "KhoTongs",
                 columns: table => new
                 {
                     MaNL = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -70,11 +56,12 @@ namespace NhaMeoShop.Migrations
                     DonViSuDungNL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TiLeQuyDoi = table.Column<float>(type: "real", nullable: false),
                     DonGiaNhap = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SoLuongTon = table.Column<int>(type: "int", nullable: false),
                     GhiChuNL = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KhoTong", x => x.MaNL);
+                    table.PrimaryKey("PK_KhoTongs", x => x.MaNL);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,6 +71,7 @@ namespace NhaMeoShop.Migrations
                     MaLoaiKH = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TenLoaiKH = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GiamGia = table.Column<double>(type: "float", nullable: false),
+                    SoLuongTon = table.Column<int>(type: "int", nullable: false),
                     GhiChuLoaiKH = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -252,6 +240,27 @@ namespace NhaMeoShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "KhoPhaChes",
+                columns: table => new
+                {
+                    MaKhoPC = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaNL = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SoLuongTon = table.Column<int>(type: "int", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GhiChuKhoPC = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KhoPhaChes", x => x.MaKhoPC);
+                    table.ForeignKey(
+                        name: "FK_KhoPhaChes_KhoTongs_MaNL",
+                        column: x => x.MaNL,
+                        principalTable: "KhoTongs",
+                        principalColumn: "MaNL",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "KhachHangs",
                 columns: table => new
                 {
@@ -316,6 +325,9 @@ namespace NhaMeoShop.Migrations
                     TKNganHangNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenNganHangNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GhiChuNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserNameNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KichHoatTK = table.Column<bool>(type: "bit", nullable: false),
                     MaLoaiNV = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LoaiNhanVienMaLoaiNV = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -358,28 +370,33 @@ namespace NhaMeoShop.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SoPX = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhieuXuatSoPX = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MaKhoPC = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KhoPhaCheMaKhoPC = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SoPX = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaNL = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SLXuat = table.Column<int>(type: "int", nullable: false),
-                    GhiChuXuat = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GhiChuXuat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaKhoPC = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChiTietPhieuXuats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChiTietPhieuXuats_KhoPhaChe_KhoPhaCheMaKhoPC",
-                        column: x => x.KhoPhaCheMaKhoPC,
-                        principalTable: "KhoPhaChe",
+                        name: "FK_ChiTietPhieuXuats_KhoPhaChes_MaKhoPC",
+                        column: x => x.MaKhoPC,
+                        principalTable: "KhoPhaChes",
                         principalColumn: "MaKhoPC",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ChiTietPhieuXuats_PhieuXuats_PhieuXuatSoPX",
-                        column: x => x.PhieuXuatSoPX,
+                        name: "FK_ChiTietPhieuXuats_KhoTongs_MaNL",
+                        column: x => x.MaNL,
+                        principalTable: "KhoTongs",
+                        principalColumn: "MaNL",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChiTietPhieuXuats_PhieuXuats_SoPX",
+                        column: x => x.SoPX,
                         principalTable: "PhieuXuats",
                         principalColumn: "SoPX",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -483,21 +500,20 @@ namespace NhaMeoShop.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SoPN = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhieuNhapSoPN = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MaNL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KhoTongMaNL = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SoPN = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MaNL = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SLNhap = table.Column<int>(type: "int", nullable: false),
-                    DGNhap = table.Column<double>(type: "float", nullable: false),
-                    GhiChuNhap = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DGNhap = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GhiChuNhap = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhieuNhapSoPN = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChiTietPhieuNhaps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChiTietPhieuNhaps_KhoTong_KhoTongMaNL",
-                        column: x => x.KhoTongMaNL,
-                        principalTable: "KhoTong",
+                        name: "FK_ChiTietPhieuNhaps_KhoTongs_MaNL",
+                        column: x => x.MaNL,
+                        principalTable: "KhoTongs",
                         principalColumn: "MaNL",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -506,6 +522,12 @@ namespace NhaMeoShop.Migrations
                         principalTable: "PhieuNhaps",
                         principalColumn: "SoPN",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChiTietPhieuNhaps_PhieuNhaps_SoPN",
+                        column: x => x.SoPN,
+                        principalTable: "PhieuNhaps",
+                        principalColumn: "SoPN",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -558,9 +580,9 @@ namespace NhaMeoShop.Migrations
                 column: "SanPhamMaSP");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChiTietPhieuNhaps_KhoTongMaNL",
+                name: "IX_ChiTietPhieuNhaps_MaNL",
                 table: "ChiTietPhieuNhaps",
-                column: "KhoTongMaNL");
+                column: "MaNL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChiTietPhieuNhaps_PhieuNhapSoPN",
@@ -568,14 +590,24 @@ namespace NhaMeoShop.Migrations
                 column: "PhieuNhapSoPN");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChiTietPhieuXuats_KhoPhaCheMaKhoPC",
-                table: "ChiTietPhieuXuats",
-                column: "KhoPhaCheMaKhoPC");
+                name: "IX_ChiTietPhieuNhaps_SoPN",
+                table: "ChiTietPhieuNhaps",
+                column: "SoPN");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChiTietPhieuXuats_PhieuXuatSoPX",
+                name: "IX_ChiTietPhieuXuats_MaKhoPC",
                 table: "ChiTietPhieuXuats",
-                column: "PhieuXuatSoPX");
+                column: "MaKhoPC");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChiTietPhieuXuats_MaNL",
+                table: "ChiTietPhieuXuats",
+                column: "MaNL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChiTietPhieuXuats_SoPX",
+                table: "ChiTietPhieuXuats",
+                column: "SoPX");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HoaDons_KhachHangMaKH",
@@ -591,6 +623,11 @@ namespace NhaMeoShop.Migrations
                 name: "IX_KhachHangs_LoaiKHMaLoaiKH",
                 table: "KhachHangs",
                 column: "LoaiKHMaLoaiKH");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KhoPhaChes_MaNL",
+                table: "KhoPhaChes",
+                column: "MaNL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NCCs_LoaiNCCMaLoaiNCC",
@@ -657,13 +694,10 @@ namespace NhaMeoShop.Migrations
                 name: "SanPhams");
 
             migrationBuilder.DropTable(
-                name: "KhoTong");
-
-            migrationBuilder.DropTable(
                 name: "PhieuNhaps");
 
             migrationBuilder.DropTable(
-                name: "KhoPhaChe");
+                name: "KhoPhaChes");
 
             migrationBuilder.DropTable(
                 name: "PhieuXuats");
@@ -679,6 +713,9 @@ namespace NhaMeoShop.Migrations
 
             migrationBuilder.DropTable(
                 name: "NhanViens");
+
+            migrationBuilder.DropTable(
+                name: "KhoTongs");
 
             migrationBuilder.DropTable(
                 name: "LoaiKHs");

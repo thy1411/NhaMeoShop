@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NhaMeoShop.Models
 {
@@ -11,10 +12,15 @@ namespace NhaMeoShop.Models
         [Key]
         public string MaKhoPC { get; set; }
 
-        public decimal SLTonQuy { get; set; }
+        public string MaNL { get; set; }
+
+        public int SoLuongTon { get; set; }
 
         public DateTime NgayCapNhat { get; set; }
 
         public string GhiChuKhoPC { get; set; }
+
+        [ForeignKey("MaNL")]
+        public KhoTong KhoTong { get; set; }
     }
 }

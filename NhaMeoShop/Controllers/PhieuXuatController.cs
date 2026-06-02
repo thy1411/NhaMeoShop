@@ -27,17 +27,17 @@ namespace NhaMeoShop.Controllers
         // GET: PhieuXuat/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var phieuXuat = await _context.PhieuXuats
-                .FirstOrDefaultAsync(m => m.SoPX == id);
+                .FirstOrDefaultAsync(x => x.SoPX == id);
+
             if (phieuXuat == null)
-            {
                 return NotFound();
-            }
+
+            ViewBag.CTPX = await _context.ChiTietPhieuXuats
+                .Include(x => x.KhoTong)
+                .Include(x => x.KhoPhaChe)
+                .Where(x => x.SoPX == id)
+                .ToListAsync();
 
             return View(phieuXuat);
         }
@@ -45,22 +45,106 @@ namespace NhaMeoShop.Controllers
         // GET: PhieuXuat/Create
         public IActionResult Create()
         {
-            return View();
+            string soPX = "PX0001";
+
+            var last = _context.PhieuXuats
+                .OrderByDescending(x => x.SoPX)
+                .FirstOrDefault();
+
+            if (last != null)
+            {
+                int stt = int.Parse(last.SoPX.Substring(2));
+                soPX = "PX" + (stt + 1).ToString("D4");
+            }
+
+            ViewBag.SoPX = soPX;
+
+            ViewBag.NL = _context.KhoTongs.ToList();
+            ViewBag.NhanVienQK = _context.NhanViens
+        .Where(x => x.MaLoaiNV == "QK")
+        .ToList();
+
+            return View(new PhieuXuat
+            {
+                SoPX = soPX,
+                NgayXuat = DateTime.Now
+            });
         }
 
         // POST: PhieuXuat/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoPX,NgayXuat,XuatHang,GhiChuPX")] PhieuXuat phieuXuat)
+        public async Task<IActionResult> Create(
+    PhieuXuat phieuXuat,
+    string[] MaNL,
+    int[] SoLuong)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(phieuXuat);
+                // Sinh số phiếu xuất tự động
+                string soPX = "PX0001";
+
+                var last = await _context.PhieuXuats
+                    .OrderByDescending(x => x.SoPX)
+                    .FirstOrDefaultAsync();
+
+                if (last != null)
+                {
+                    int stt = int.Parse(last.SoPX.Substring(2));
+                    soPX = "PX" + (stt + 1).ToString("D4");
+                }
+
+                phieuXuat.SoPX = soPX;
+
+                _context.PhieuXuats.Add(phieuXuat);
+
+                for (int i = 0; i < MaNL.Length; i++)
+                {
+                    var khoTong = await _context.KhoTongs
+                        .FirstOrDefaultAsync(x => x.MaNL == MaNL[i]);
+
+                    if (khoTong == null)
+                        continue;
+
+                    if (khoTong.SoLuongTon < SoLuong[i])
+                    {
+                        ModelState.AddModelError("",
+                            $"Nguyên liệu {khoTong.TenNL} không đủ tồn kho");
+
+                        ViewBag.NL = _context.KhoTongs.ToList();
+                        ViewBag.SoPX = soPX;
+                        ViewBag.NL = _context.KhoTongs.ToList();
+
+                        ViewBag.NhanVienQK = _context.NhanViens
+                            .Where(x => x.MaLoaiNV == "QK")
+                            .ToList();
+                        return View(phieuXuat);
+                    }
+
+                    // Trừ kho tổng
+                    khoTong.SoLuongTon -= SoLuong[i];
+
+
+                    var ct = new ChiTietPhieuXuat
+                    {
+                        SoPX = soPX,
+                        MaNL = MaNL[i],
+                        SLXuat = SoLuong[i]
+                    };
+
+                    _context.ChiTietPhieuXuats.Add(ct);
+                }
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.NL = _context.KhoTongs.ToList();
+            ViewBag.NhanVienQK = _context.NhanViens
+    .Where(x => x.MaLoaiNV == "QK")
+    .ToList();
+
             return View(phieuXuat);
         }
 

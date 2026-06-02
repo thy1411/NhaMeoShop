@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NhaMeoShop.Models
 {
@@ -11,16 +12,25 @@ namespace NhaMeoShop.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string SoPX { get; set; }
 
-        public PhieuXuat PhieuXuat { get; set; }
+        [ForeignKey("SoPX")]
+        public virtual PhieuXuat PhieuXuat { get; set; }
 
-        public string MaKhoPC { get; set; }
+        [Required]
+        public string MaNL { get; set; }
 
-        public KhoPhaChe KhoPhaChe { get; set; }
+        [ForeignKey("MaNL")]
+        public virtual KhoTong KhoTong { get; set; }
 
         public int SLXuat { get; set; }
 
         public string GhiChuXuat { get; set; }
+
+        public string MaKhoPC { get; set; }
+
+        [ForeignKey("MaKhoPC")]
+        public virtual KhoPhaChe KhoPhaChe { get; set; }
     }
 }

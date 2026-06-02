@@ -191,6 +191,81 @@
             </div>
 
         </div>
+        <!-- CHI TIẾT NGUYÊN LIỆU -->
+        <div class="section-title mt-4">
+            Danh sách nguyên liệu nhập
+        </div>
+
+        @{
+            var chiTiets = ViewBag.ChiTiet as List<NhaMeoShop.Models.ChiTietPhieuNhap>;
+        }
+
+        @if (chiTiets != null && chiTiets.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table table-bordered mt-3">
+
+                    <thead style="background:#6f4e37;color:white;">
+
+                        <tr>
+                            <th>Mã NL</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var ct in chiTiets)
+                        {
+                            <tr>
+
+                                <td>@ct.MaNL</td>
+
+                                <td>@ct.SLNhap</td>
+
+                                <td>
+                                    @ct.DGNhap.ToString("N0") đ
+                                </td>
+
+                                <td>
+                                    @((ct.SLNhap * ct.DGNhap).ToString("N0")) đ
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                    <tfoot>
+
+                        <tr style="font-weight:bold;background:#fff3e6;">
+
+                            <td colspan="3" class="text-end">
+                                Tổng tiền
+                            </td>
+
+                            <td>
+                                @chiTiets.Sum(x => x.SLNhap * x.DGNhap).ToString("N0") đ
+                            </td>
+
+                        </tr>
+
+                    </tfoot>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mt-3">
+                Chưa có nguyên liệu nào trong phiếu nhập.
+            </div>
+        }
 
         <!-- BUTTON -->
         <div class="mt-4">

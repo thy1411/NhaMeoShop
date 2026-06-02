@@ -33,11 +33,16 @@ namespace NhaMeoShop.Controllers
             }
 
             var phieuNhap = await _context.PhieuNhaps
-                .FirstOrDefaultAsync(m => m.SoPN == id);
+                .FirstOrDefaultAsync(x => x.SoPN == id);
+
             if (phieuNhap == null)
             {
                 return NotFound();
             }
+
+            ViewBag.ChiTiet = await _context.ChiTietPhieuNhaps
+                .Where(x => x.SoPN == id)
+                .ToListAsync();
 
             return View(phieuNhap);
         }
@@ -45,22 +50,101 @@ namespace NhaMeoShop.Controllers
         // GET: PhieuNhap/Create
         public IActionResult Create()
         {
+            ViewBag.NCC = _context.NCCs.ToList();
+            ViewBag.NL = _context.KhoTongs.ToList();
+
+            string soPN = "PN0001";
+
+            var last = _context.PhieuNhaps
+                .OrderByDescending(x => x.SoPN)
+                .FirstOrDefault();
+
+            if (last != null)
+            {
+                int stt = int.Parse(last.SoPN.Substring(2)) + 1;
+                soPN = "PN" + stt.ToString("D4");
+            }
+
+            ViewBag.SoPN = soPN;
+
             return View();
         }
 
         // POST: PhieuNhap/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoPN,NgayNhap,GiaoHang,GhiChuPN,MaNV,MaNCC")] PhieuNhap phieuNhap)
+        public async Task<IActionResult> Create(
+            PhieuNhap phieuNhap,
+            string[] MaNL,
+            int[] SLNhap,
+            decimal[] DGNhap)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(phieuNhap);
+                // Tạo mã phiếu nhập tự động
+                string soPN = "PN0001";
+
+                var last = await _context.PhieuNhaps
+                    .OrderByDescending(x => x.SoPN)
+                    .FirstOrDefaultAsync();
+
+                if (last != null)
+                {
+                    int stt = int.Parse(last.SoPN.Substring(2)) + 1;
+                    soPN = "PN" + stt.ToString("D4");
+                }
+
+                phieuNhap.SoPN = soPN;
+
+                _context.PhieuNhaps.Add(phieuNhap);
+
+                if (MaNL != null)
+                {
+                    for (int i = 0; i < MaNL.Length; i++)
+                    {
+                        var ct = new ChiTietPhieuNhap
+                        {
+                            SoPN = soPN,
+                            MaNL = MaNL[i],
+                            SLNhap = SLNhap[i],
+                            DGNhap = DGNhap[i]
+                        };
+
+                        _context.ChiTietPhieuNhaps.Add(ct);
+
+                        // Cập nhật tồn kho
+                        var nl = await _context.KhoTongs
+                            .FirstOrDefaultAsync(x => x.MaNL == MaNL[i]);
+
+                        if (nl != null)
+                        {
+                            nl.SoLuongTon += SLNhap[i];
+                        }
+                    }
+                }
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.NCC = _context.NCCs.ToList();
+            ViewBag.NL = _context.KhoTongs.ToList();
+
+            string soPNMoi = "PN0001";
+
+            var lastPN = await _context.PhieuNhaps
+                .OrderByDescending(x => x.SoPN)
+                .FirstOrDefaultAsync();
+
+            if (lastPN != null)
+            {
+                int stt = int.Parse(lastPN.SoPN.Substring(2)) + 1;
+                soPNMoi = "PN" + stt.ToString("D4");
+            }
+
+            ViewBag.SoPN = soPNMoi;
+
             return View(phieuNhap);
         }
 
@@ -139,8 +223,20 @@ namespace NhaMeoShop.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var phieuNhap = await _context.PhieuNhaps.FindAsync(id);
-            _context.PhieuNhaps.Remove(phieuNhap);
-            await _context.SaveChangesAsync();
+
+            if (phieuNhap != null)
+            {
+                var chiTiet = await _context.ChiTietPhieuNhaps
+                    .Where(x => x.SoPN == id)
+                    .ToListAsync();
+
+                _context.ChiTietPhieuNhaps.RemoveRange(chiTiet);
+
+                _context.PhieuNhaps.Remove(phieuNhap);
+
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

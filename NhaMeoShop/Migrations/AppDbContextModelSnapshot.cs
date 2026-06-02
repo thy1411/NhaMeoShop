@@ -19,6 +19,38 @@ namespace NhaMeoShop.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("KhoTong", b =>
+                {
+                    b.Property<string>("MaNL")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("DonGiaNhap")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("DonViNhapNL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DonViSuDungNL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GhiChuNL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoLuongTon")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenNL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TiLeQuyDoi")
+                        .HasColumnType("real");
+
+                    b.HasKey("MaNL");
+
+                    b.ToTable("KhoTongs");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -259,17 +291,14 @@ namespace NhaMeoShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("DGNhap")
-                        .HasColumnType("float");
+                    b.Property<decimal>("DGNhap")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("GhiChuNhap")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("KhoTongMaNL")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("MaNL")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhieuNhapSoPN")
                         .HasColumnType("nvarchar(450)");
@@ -278,13 +307,15 @@ namespace NhaMeoShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SoPN")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KhoTongMaNL");
+                    b.HasIndex("MaNL");
 
                     b.HasIndex("PhieuNhapSoPN");
+
+                    b.HasIndex("SoPN");
 
                     b.ToTable("ChiTietPhieuNhaps");
                 });
@@ -299,26 +330,27 @@ namespace NhaMeoShop.Migrations
                     b.Property<string>("GhiChuXuat")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("KhoPhaCheMaKhoPC")
+                    b.Property<string>("MaKhoPC")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("MaKhoPC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhieuXuatSoPX")
+                    b.Property<string>("MaNL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("SLXuat")
                         .HasColumnType("int");
 
                     b.Property<string>("SoPX")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KhoPhaCheMaKhoPC");
+                    b.HasIndex("MaKhoPC");
 
-                    b.HasIndex("PhieuXuatSoPX");
+                    b.HasIndex("MaNL");
+
+                    b.HasIndex("SoPX");
 
                     b.ToTable("ChiTietPhieuXuats");
                 });
@@ -423,44 +455,20 @@ namespace NhaMeoShop.Migrations
                     b.Property<string>("GhiChuKhoPC")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("SLTonQuy")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("MaKhoPC");
-
-                    b.ToTable("KhoPhaChe");
-                });
-
-            modelBuilder.Entity("NhaMeoShop.Models.KhoTong", b =>
-                {
                     b.Property<string>("MaNL")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("DonGiaNhap")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("NgayCapNhat")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DonViNhapNL")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SoLuongTon")
+                        .HasColumnType("int");
 
-                    b.Property<string>("DonViSuDungNL")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("MaKhoPC");
 
-                    b.Property<string>("GhiChuNL")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("MaNL");
 
-                    b.Property<string>("TenNL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("TiLeQuyDoi")
-                        .HasColumnType("real");
-
-                    b.HasKey("MaNL");
-
-                    b.ToTable("KhoTong");
+                    b.ToTable("KhoPhaChes");
                 });
 
             modelBuilder.Entity("NhaMeoShop.Models.LoaiKH", b =>
@@ -473,6 +481,9 @@ namespace NhaMeoShop.Migrations
 
                     b.Property<double>("GiamGia")
                         .HasColumnType("float");
+
+                    b.Property<int>("SoLuongTon")
+                        .HasColumnType("int");
 
                     b.Property<string>("TenLoaiKH")
                         .IsRequired()
@@ -585,6 +596,9 @@ namespace NhaMeoShop.Migrations
                     b.Property<string>("GhiChuNV")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("KichHoatTK")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LoaiNhanVienMaLoaiNV")
                         .HasColumnType("nvarchar(450)");
 
@@ -593,6 +607,9 @@ namespace NhaMeoShop.Migrations
 
                     b.Property<DateTime>("NgaySinhNV")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PasswordNV")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhaiNV")
                         .HasColumnType("bit");
@@ -608,6 +625,9 @@ namespace NhaMeoShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenNganHangNV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNameNV")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaNV");
@@ -768,13 +788,18 @@ namespace NhaMeoShop.Migrations
 
             modelBuilder.Entity("NhaMeoShop.Models.ChiTietPhieuNhap", b =>
                 {
-                    b.HasOne("NhaMeoShop.Models.KhoTong", "KhoTong")
+                    b.HasOne("KhoTong", "KhoTong")
                         .WithMany()
-                        .HasForeignKey("KhoTongMaNL");
+                        .HasForeignKey("MaNL");
 
-                    b.HasOne("NhaMeoShop.Models.PhieuNhap", "PhieuNhap")
+                    b.HasOne("NhaMeoShop.Models.PhieuNhap", null)
                         .WithMany("ChiTietPhieuNhaps")
                         .HasForeignKey("PhieuNhapSoPN");
+
+                    b.HasOne("NhaMeoShop.Models.PhieuNhap", "PhieuNhap")
+                        .WithMany()
+                        .HasForeignKey("SoPN")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("KhoTong");
 
@@ -785,13 +810,23 @@ namespace NhaMeoShop.Migrations
                 {
                     b.HasOne("NhaMeoShop.Models.KhoPhaChe", "KhoPhaChe")
                         .WithMany()
-                        .HasForeignKey("KhoPhaCheMaKhoPC");
+                        .HasForeignKey("MaKhoPC");
+
+                    b.HasOne("KhoTong", "KhoTong")
+                        .WithMany()
+                        .HasForeignKey("MaNL")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NhaMeoShop.Models.PhieuXuat", "PhieuXuat")
                         .WithMany("ChiTietPhieuXuats")
-                        .HasForeignKey("PhieuXuatSoPX");
+                        .HasForeignKey("SoPX")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("KhoPhaChe");
+
+                    b.Navigation("KhoTong");
 
                     b.Navigation("PhieuXuat");
                 });
@@ -818,6 +853,15 @@ namespace NhaMeoShop.Migrations
                         .HasForeignKey("LoaiKHMaLoaiKH");
 
                     b.Navigation("LoaiKH");
+                });
+
+            modelBuilder.Entity("NhaMeoShop.Models.KhoPhaChe", b =>
+                {
+                    b.HasOne("KhoTong", "KhoTong")
+                        .WithMany()
+                        .HasForeignKey("MaNL");
+
+                    b.Navigation("KhoTong");
                 });
 
             modelBuilder.Entity("NhaMeoShop.Models.NCC", b =>

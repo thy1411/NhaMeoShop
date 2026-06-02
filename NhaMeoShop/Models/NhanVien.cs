@@ -30,6 +30,12 @@ namespace NhaMeoShop.Models
 
         public string GhiChuNV { get; set; }
 
+        public string UserNameNV { get; set; }
+
+        public string PasswordNV { get; set; }
+
+        public bool KichHoatTK { get; set; } = true;
+
         public string MaLoaiNV { get; set; }
 
         public LoaiNhanVien LoaiNhanVien { get; set; }

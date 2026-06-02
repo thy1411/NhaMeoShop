@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NhaMeoShop.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace NhaMeoShop.Models
 {
@@ -12,16 +13,14 @@ namespace NhaMeoShop.Models
         public int Id { get; set; }
 
         public string SoPN { get; set; }
-
-        public PhieuNhap PhieuNhap { get; set; }
+        public virtual PhieuNhap PhieuNhap { get; set; }
 
         public string MaNL { get; set; }
-
-        public KhoTong KhoTong { get; set; }
+        public virtual KhoTong KhoTong { get; set; }
 
         public int SLNhap { get; set; }
 
-        public double DGNhap { get; set; }
+        public decimal DGNhap { get; set; }
 
         public string GhiChuNhap { get; set; }
     }
